@@ -28,6 +28,11 @@ const FileUpload = () => {
 
     return (
         <div className="file-upload">
+            <select id="chartType" name = "chartType" className='file-upload--select'>
+                <option value="bar">&nbsp;Bar</option>
+                <option value="line">&nbsp;Line</option>
+                <option value="pie">&nbsp;Pie</option>
+            </select>
            <div 
                 className="dropzone-container"
                 style={{cursor: 'pointer', lineHeight: '1.3', padding: ".25rem .5rem", margin: '1rem auto 0 auto', width: '80%', display: 'block', height: '4rem', border: '2px solid blue', borderRadius: '4px'}}

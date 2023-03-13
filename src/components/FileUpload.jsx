@@ -1,4 +1,5 @@
-import { upload } from "@testing-library/user-event/dist/upload"
+import './FileUpload.scss';
+import React from 'react';
 
 const FileUpload = () => {
 

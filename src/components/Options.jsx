@@ -2,9 +2,9 @@ import './Options.scss';
 import React from 'react';
 
 function Options() {
-  re;turn (
+  return (
     <div>Options</div>
   )
 }
 
-export default; Options
+export default Options

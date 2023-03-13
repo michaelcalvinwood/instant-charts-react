@@ -7,7 +7,8 @@ function App() {
   return (
     <div className="App">
       <FileUpload />
-      <Templates test={true}/> 
+      <Templates /> 
+      <Options />
     </div>
   );
 }

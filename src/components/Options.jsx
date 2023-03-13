@@ -3,7 +3,7 @@ import React from 'react';
 
 function Options() {
   return (
-    <div>Options</div>
+    <div className='options'>Options</div>
   )
 }
 

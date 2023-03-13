@@ -5,7 +5,7 @@ const FileUpload = () => {
 
     return (
         <div className="file-upload">
-            Hello File Upload
+            File Upload
         </div>
         
     )

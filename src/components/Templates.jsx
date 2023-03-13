@@ -3,7 +3,7 @@ import React from 'react';
 
 function Templates() {
   return (
-    <div>Templates</div>
+    <div className='templates'>Templates</div>
   )
 }
 

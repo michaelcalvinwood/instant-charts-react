@@ -1,6 +1,7 @@
 import './FileUpload.scss';
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import axios from 'axios';
 
 const FileUpload = () => {
     
@@ -8,7 +9,21 @@ const FileUpload = () => {
         const fd = new FormData();
         console.log(files);
         files.forEach(file =>fd.append('File[]',file));
-        console.log(fd.entries());
+        const config = {  };
+
+        const request = {
+            url: `https://charts.pymnts.com:6300/csv`,
+            method: 'post',
+            data: fd,
+            headers: { 'Content-Type': 'multipart/form-data' }
+        }
+        axios(request)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        })
     }
 
     return (

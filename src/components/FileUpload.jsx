@@ -2,10 +2,13 @@ import './FileUpload.scss';
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-
 const FileUpload = () => {
+    
     const uploadFiles = files => {
-        console.log('the files', files);
+        const fd = new FormData();
+        console.log(files);
+        files.forEach(file =>fd.append('File[]',file));
+        console.log(fd.entries());
     }
 
     return (

@@ -13,7 +13,7 @@ const Templates = ({templates, setTemplates, chart, templateSelection, setTempla
   return (
     <div className='templates'>
       <h2 className='templates--heading'>
-          Templates for {chart.charAt(0).toUpperCase() + chart.slice(1)} Charts
+          {chart.charAt(0).toUpperCase() + chart.slice(1)} Charts
       </h2>
       <div className="templates--selections">
         {!templates[chart] && <p>No Templates Found</p>} 

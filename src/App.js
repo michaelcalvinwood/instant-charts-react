@@ -12,12 +12,14 @@ function App() {
   const [templateSelection, setTemplateSelection] = useState('default');
   const [chart, setChart] = useState('bar');
   const [csv, setCsv] = useState(null);
+  const [config, setConfig] = useState(null);
 
   const state = {templates, templateSelection, chart, csv}
   
   useEffect(() => {
 
   })
+
   return (
     <div className="App">
       <FileUpload 
@@ -32,7 +34,10 @@ function App() {
         templateSelection={templateSelection}
         setTemplateSelection={setTemplateSelection}
       /> 
-      <Options />
+      <Options 
+        config={config}
+        setConfig={setConfig}
+      />
       <Chart 
         state={state}
       />

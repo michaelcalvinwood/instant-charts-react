@@ -1,74 +1,68 @@
-
-export const pieTemplate = {};
-
+import global from "./global";
+const pie = {};
 /*
- * Light Color
+ * TODO: Scale fontsize down based on media size
  */
 
-pieTemplate.lightColor = {};
-pieTemplate.lightColor.colorPalette = ['#87b6ff', '#00d88a', '#fd8f83', '#8c97d7', '#f0d173', '#b0b1b3', '#e89065'];
-pieTemplate.lightColor.option = {
+pie.default = {};
+pie.default.option = {
+    color: global.choices.color.brandBold,
     title: {
-        text: 'This is the Title',
-        subtext: 'This is the sub-title or description',
-        left: 'center',
-        textStyle: {
-        fontSize: 35,
-        fontWeight: "bold",
-        color: "#000000",
+      left: 'center',
+      textStyle: {
+              fontSize: 35,
+              fontWeight: "bold",
+              color: "#000000",
+          },
+          subtextStyle: {
+            fontSize: 18,
+            color: "#000000",
+        }
+    },
+     tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
+          backgroundColor: "rgba(0, 0, 0, .6)",
+          textStyle: {
+            color: 'white'
+          }
         },
-        subtextStyle: {
-        fontSize: 18,
-        color: "#000000",
-        }
-    },
-    tooltip: {
-        trigger: 'item'
-    },
-    legend: {
+      legend: {
         orient: 'vertical',
-        left: 'left',
+        left: 10,
+        top: 10,
         textStyle: {
-        fontSize: 15
+              fontSize: 15,
+              color: 'black'
         }
-    },
+      },
     series: [
-        {
+      {
         name: 'Access From',
         type: 'pie',
         radius: '50%',
-        label: {
+        center: ["50%", "50%"],
+            selectedMode: "single",
+        data: [
+          { value: 1048, name: 'Search Engine' },
+          { value: 735, name: 'Direct' },
+          { value: 580, name: 'Email' },
+          { value: 484, name: 'Union Ads' },
+          { value: 300, name: 'Video Ads' }
+        ],
+       emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+        },
+       label: {
                 fontSize: 15,
                 color: '#000000'
             },
-        color: colorPalette,
-        data: [
-            { value: 200, name: 'Pie 1', },
-            { value: 200, name: 'Pie 2' },
-            { value: 200, name: 'Pie 3' },
-            { value: 200, name: 'Pie 4' },
-            { value: 200, name: 'Pie 5' },
-            { value: 200, name: 'Pie 6' },
-            { value: 200, name: 'Pie 7' }
-        ],
-        emphasis: {
-            itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-        }
-        }
-    ],
-        rich: {
-        pietext: {
-        fontSize: 15,
-        fontFamily: 'Roboto',
-        }
-    }
-    };
+      }
+    ]
+  };
 
-
-
-
-
+export default pie;

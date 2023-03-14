@@ -3,7 +3,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
-const FileUpload = () => {
+const FileUpload = ({chart, setChart}) => {
     
     const uploadFiles = files => {
         const fd = new FormData();
@@ -29,7 +29,7 @@ const FileUpload = () => {
 
     return (
         <div className="file-upload">
-            <select id="chartType" name = "chartType" className='file-upload--select'>
+            <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
                 <option value="bar">&nbsp;Bar</option>
                 <option value="line">&nbsp;Line</option>
                 <option value="pie">&nbsp;Pie</option>

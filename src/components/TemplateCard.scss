@@ -1,0 +1,15 @@
+.template-card {
+    padding: .25rem .5rem;
+    width: 30%;
+    border: 1px solid blue;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: aqua;
+    }
+    &--active {
+        background-color: aqua;
+    }
+}

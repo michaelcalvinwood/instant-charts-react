@@ -10,4 +10,12 @@
         text-align: center;
         margin: 1rem 0;
     }
+    &--selections {
+        padding: 0 1rem;
+    }
+    &--template-list {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
 }

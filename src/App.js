@@ -9,6 +9,7 @@ import template from './templates/template';
 
 function App() {
   const [templates, setTemplates] = useState(template);
+  const [templateSelection, setTemplateSelection] = useState('default');
   const [chart, setChart] = useState('bar');
 
   useEffect(() => {
@@ -24,6 +25,8 @@ function App() {
         templates={templates}
         setTemplates={setTemplates}
         chart={chart}
+        templateSelection={templateSelection}
+        setTemplateSelection={setTemplateSelection}
       /> 
       <Options />
       <Chart />

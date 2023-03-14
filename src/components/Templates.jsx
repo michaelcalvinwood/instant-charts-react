@@ -3,7 +3,7 @@ import React from 'react';
 import template from '../templates/template';
 import TemplateCard from './TemplateCard';
 
-const Templates = ({templates, setTemplates, chart}) => {
+const Templates = ({templates, setTemplates, chart, templateSelection, setTemplateSelection}) => {
   console.log('template', template, Object.keys(template));
 
   let selections = [];
@@ -22,6 +22,8 @@ const Templates = ({templates, setTemplates, chart}) => {
              return <TemplateCard 
               key={selection}
               selection={selection}
+              templateSelection={templateSelection}
+              setTemplateSelection={setTemplateSelection}
              />
           })}
           </div>}

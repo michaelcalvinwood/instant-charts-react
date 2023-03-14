@@ -1,9 +1,18 @@
 import './Chart.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-function Chart() {
+function Chart({state}) {
+  console.log('Chart', state)
+
+
+  useEffect(() => {
+
+  });
+  
   return (
-    <div className='chart'>Chart</div>
+    <div className='chart'>
+      
+    </div>
   )
 
 }

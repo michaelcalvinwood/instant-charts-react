@@ -13,7 +13,7 @@ function App() {
   const [chart, setChart] = useState('bar');
   const [csv, setCsv] = useState(null);
 
-  console.log('App csv', csv);
+  const state = {templates, templateSelection, chart, csv}
   
   useEffect(() => {
 
@@ -33,7 +33,9 @@ function App() {
         setTemplateSelection={setTemplateSelection}
       /> 
       <Options />
-      <Chart />
+      <Chart 
+        state={state}
+      />
     </div>
   );
 }

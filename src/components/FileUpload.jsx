@@ -1,14 +1,15 @@
 import './FileUpload.scss';
-import React from 'react';
+import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
 const FileUpload = ({chart, setChart, setCsv}) => {
+    const [fileName, setFileName] = useState('');
     
     const uploadFiles = files => {
         const fd = new FormData();
         fd.append('chart', document.getElementById('chartType').value);
-        console.log(files);
+        console.log(files[0].name);
         files.forEach(file =>fd.append('File[]',file));
         const config = {  };
 
@@ -22,6 +23,7 @@ const FileUpload = ({chart, setChart, setCsv}) => {
         .then((response) => {
             console.log(response.data);
             setCsv(response.data);
+            setFileName(files[0].name);
         })
         .catch(error => {
             console.error(error);
@@ -32,6 +34,7 @@ const FileUpload = ({chart, setChart, setCsv}) => {
 
     return (
         <div className="file-upload">
+            <div className='file-upload--fileName'>{fileName}</div>
             <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
                 <option value="bar">&nbsp;Bar</option>
                 <option value="line">&nbsp;Line</option>
@@ -50,6 +53,7 @@ const FileUpload = ({chart, setChart, setCsv}) => {
                     )}
                 </Dropzone>
            </div>
+           
         </div>
         
     )

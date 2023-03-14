@@ -6,6 +6,12 @@
     height: 15rem;
     border: 1px solid blue;
 
+    &--fileName {
+        margin: 1rem auto 0 auto;
+        height: 1rem;
+        text-align: center;
+        font-weight: bold;
+    }
     &--select {
         margin: 1rem auto 0 auto;
         width: 4rem;

@@ -1,13 +1,16 @@
 import './Chart.scss';
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
+import lodash from 'lodash';
 
 function Chart({state}) {
-  console.log('Chart', state);
+  console.log('Chart state', state);
   const minChartHeight = 300;
   const chartRef = useRef();
 
-  const addConfig = option => {
+  const addConfig = optionOrig => {
+    const option = lodash.cloneDeep(optionOrig);
+
     /*
      * Set the title
      */
@@ -72,14 +75,25 @@ function Chart({state}) {
 
     chartRef.current.style.height = minChartHeight + totalHeight + 'px';
     //chartRef.current.innerHTML = '';
+
+    if (!state.config.checked) {
+      option.legend = {show: false}
+    }
+    else {
+      console.log('Legend True', state.templates.pie[state.templateSelection].desktop.legend);
+      option.legend = state.templates.pie[state.templateSelection].desktop.legend;
+      option.legend.show = true;
+    }
+
+    return option;
   }
 
   const displayPieChart = () => {
     const {templates, templateSelection, chart, csv} = state;
 
     let option = templates.pie[templateSelection].desktop;
-    console.log('Chart option', option);
-    addConfig(option);
+   
+    option = addConfig(option);
     option.grid = {
       bottom: 0
     }
@@ -90,7 +104,9 @@ function Chart({state}) {
     myChart.resize({opts: {
       height: 'auto'
     }});
-    option && myChart.setOption(option);
+
+    console.log('Chart setOption', option);
+    myChart.setOption(option);
 
   }
 

@@ -5,6 +5,8 @@ import * as lodash from 'lodash';
 function Options({config, setConfig}) {
   console.log("Options", config);
 
+  if (typeof config.checked === 'undefined') config.checked = true;
+
   const handleTitle = e => {
     const configCopy = lodash.cloneDeep(config);
     if (typeof configCopy.title === 'undefined') {
@@ -30,7 +32,10 @@ function Options({config, setConfig}) {
   }
 
   const handleLegend = e => {
-
+   const configCopy = lodash.cloneDeep(config);
+   configCopy.checked = !configCopy.checked;
+   setConfig(configCopy);
+    
   }
 
   
@@ -60,7 +65,7 @@ function Options({config, setConfig}) {
       <br />
       
       <div className='options--chart-label'>Legend:</div> 
-      <input type="checkbox" name="chartLegend" id="chartLegend" checked onChange={handleLegend}/>
+      <input type="checkbox" name="chartLegend" id="chartLegend" checked={config.checked} onChange={handleLegend}/>
       <br />
 
       <div className='options--chart-label'>Color:</div>

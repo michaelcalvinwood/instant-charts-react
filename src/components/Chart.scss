@@ -4,5 +4,11 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    border: 1px solid blue;
+    border: 1px solid var(--primary-color);
+
+    &--heading {
+        color: var(--primary-color);
+        text-align: center;
+        margin: 1rem 0 0 0;
+    }
 }

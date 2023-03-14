@@ -34,6 +34,7 @@ const FileUpload = ({chart, setChart, setCsv}) => {
 
     return (
         <div className="file-upload">
+            <h2 className="file-upload--input">Input</h2>
             <div className='file-upload--fileName'>{fileName}</div>
             <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
                 <option value="bar">&nbsp;Bar</option>

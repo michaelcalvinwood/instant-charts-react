@@ -4,8 +4,13 @@
     top: 0;
     left: 0;
     height: 15rem;
-    border: 1px solid blue;
+    border: 1px solid var(--primary-color);
 
+    &--input {
+        margin: 1rem 0 0 0;
+        color: var(--primary-color);
+        text-align: center;
+    }
     &--fileName {
         margin: 1rem auto 0 auto;
         height: 1rem;
@@ -16,6 +21,7 @@
         margin: 1rem auto 0 auto;
         width: 4rem;
         display: block;
+        text-align: center;
         
 
     }
@@ -29,6 +35,6 @@
     width: 80%;
     display: block;
     height: 4rem;
-    border: 2px solid blue; 
+    border: 2px solid var(--primary-color);
     border-radius: 4px;
 }

@@ -12,7 +12,7 @@ function App() {
   const [templateSelection, setTemplateSelection] = useState('default');
   const [chart, setChart] = useState('bar');
   const [csv, setCsv] = useState(null);
-  const [config, setConfig] = useState(null);
+  const [config, setConfig] = useState({});
 
   const state = {templates, templateSelection, chart, csv}
   

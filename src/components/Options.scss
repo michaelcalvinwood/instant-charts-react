@@ -4,12 +4,13 @@
     position: fixed;
     top: 0;
     right: 0;
-    border: 1px solid blue;
+    border: 1px solid  var(--primary-color);
     padding: 0 1rem;
 
     &--heading {
         text-align: center;
         margin: 1rem 0 0 0;
+        color: var(--primary-color);
     }
     &--chart-label {
         margin: 1rem 0 0 0;
@@ -22,6 +23,10 @@
     }
     &--color-list {
         margin: 0 0 0 5rem;
+    }
+    &--chart-color-scheme {
+        width: 10rem;
+        text-align: center;
     }
 
 }

@@ -14,6 +14,10 @@ function Chart({state}) {
 
   return (
     <div className='chart'>
+      <h2 className='chart--heading'>Chart</h2>
+      <div id="theChart">
+        
+      </div>
       
     </div>
   )

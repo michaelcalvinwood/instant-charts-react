@@ -19,6 +19,9 @@ pie.default.desktop = {
             color: "#000000",
         }
     },
+    grid: {
+      bottom: 0
+    },
      tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)",

@@ -4,6 +4,7 @@ import * as echarts from 'echarts';
 
 function Chart({state}) {
   console.log('Chart', state);
+  const minChartHeight = 300;
   const chartRef = useRef();
 
   const addConfig = option => {
@@ -14,7 +15,7 @@ function Chart({state}) {
     if (state.config && state.config.title && state.config.title.text) {
       if (!option.title) {
         option.title = state.config.title
-      } else option.title.text = state.config.title.text.replace('<br>', "\n");
+      } else option.title.text = state.config.title.text.replaceAll('<br>', "\n");
     } else {
       if (option.title) option.title.text = '';
     }
@@ -26,11 +27,51 @@ function Chart({state}) {
     if (state.config && state.config.title && state.config.title.subtext) {
       if (!option.title) {
         option.title = state.config.title
-      } else option.title.subtext = state.config.title.subtext.replace('<br>', "\n");
+      } else option.title.subtext = state.config.title.subtext.replaceAll('<br>', "\n");
     } else {
       if (option.title) option.title.subtext = '';
     }
 
+    /*
+     * Calculate titleHeight
+     */
+
+    let titleFontSize = option.title && option.title.textStyle && option.title.textStyle.fontSize ?
+      option.title.textStyle.fontSize : 
+      16;
+
+   
+    let numTitleLines = 0;
+    if (option.title.text) {
+      numTitleLines = option.title.text.split("\n").length;
+    }
+
+    const titleHeight = numTitleLines * titleFontSize;
+
+    /*
+     * Calculate subtitleHeight
+     */
+
+    let subtitleFontSize = option.title && option.title.subtextStyle && option.title.subtextStyle.fontSize ?
+    option.title.subtextStyle.fontSize : 
+    16;
+
+   
+    let numSubtitleLines = 0;
+    if (option.title.subtext) {
+      numSubtitleLines = option.title.subtext.split("\n").length;
+    }
+
+    const subtitleHeight = numSubtitleLines * subtitleFontSize;
+
+    /*
+     * Adjust chart placement based on total title & subtitle height
+     */
+
+    const totalHeight = (titleHeight + subtitleHeight) * 2.5;
+
+    chartRef.current.style.height = minChartHeight + totalHeight + 'px';
+    //chartRef.current.innerHTML = '';
   }
 
   const displayPieChart = () => {
@@ -38,12 +79,17 @@ function Chart({state}) {
 
     let option = templates.pie[templateSelection].desktop;
     console.log('Chart option', option);
+    addConfig(option);
+    option.grid = {
+      bottom: 0
+    }
     
     const chartDom = chartRef.current;
     var myChart = echarts.init(chartDom);
 
-    addConfig(option);
-
+    myChart.resize({opts: {
+      height: 'auto'
+    }});
     option && myChart.setOption(option);
 
   }

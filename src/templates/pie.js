@@ -1,12 +1,12 @@
-import global from "./global";
+
 const pie = {};
 /*
  * TODO: Scale fontsize down based on media size
  */
 
 pie.default = {};
-pie.default.option = {
-    color: global.choices.color.brandBold,
+pie.default.desktop = {
+    
     title: {
       left: 'center',
       textStyle: {

@@ -14,7 +14,7 @@ function App() {
   const [csv, setCsv] = useState(null);
   const [config, setConfig] = useState({});
 
-  const state = {templates, templateSelection, chart, csv}
+  const state = {templates, templateSelection, chart, csv, config}
   
   useEffect(() => {
 

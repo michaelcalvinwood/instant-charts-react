@@ -7,6 +7,10 @@ function Chart({state}) {
   const chartRef = useRef();
 
   const addConfig = option => {
+    /*
+     * Set the title
+     */
+
     if (state.config && state.config.title && state.config.title.text) {
       if (!option.title) {
         option.title = state.config.title
@@ -14,6 +18,19 @@ function Chart({state}) {
     } else {
       if (option.title) option.title.text = '';
     }
+
+    /*
+     * Set the subtitle
+     */
+
+    if (state.config && state.config.title && state.config.title.subtext) {
+      if (!option.title) {
+        option.title = state.config.title
+      } else option.title.subtext = state.config.title.subtext.replace('<br>', "\n");
+    } else {
+      if (option.title) option.title.subtext = '';
+    }
+
   }
 
   const displayPieChart = () => {

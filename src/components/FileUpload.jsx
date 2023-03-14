@@ -3,7 +3,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
-const FileUpload = ({chart, setChart}) => {
+const FileUpload = ({chart, setChart, setCsv}) => {
     
     const uploadFiles = files => {
         const fd = new FormData();
@@ -21,9 +21,12 @@ const FileUpload = ({chart, setChart}) => {
         axios(request)
         .then((response) => {
             console.log(response.data);
+            setCsv(response.data);
         })
         .catch(error => {
             console.error(error);
+            alert('Error: Could not process CSV. Please reformat file.');
+            setCsv([]);
         })
     }
 

@@ -11,7 +11,10 @@ function App() {
   const [templates, setTemplates] = useState(template);
   const [templateSelection, setTemplateSelection] = useState('default');
   const [chart, setChart] = useState('bar');
+  const [csv, setCsv] = useState(null);
 
+  console.log('App csv', csv);
+  
   useEffect(() => {
 
   })
@@ -20,6 +23,7 @@ function App() {
       <FileUpload 
         chart={chart}
         setChart={setChart}
+        setCsv={setCsv}
       />
       <Templates 
         templates={templates}

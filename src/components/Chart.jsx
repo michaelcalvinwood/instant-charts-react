@@ -89,6 +89,14 @@ function Chart({state}) {
       bottom: 0
     }
 
+    /*
+     * Set color scheme
+     */
+
+    if (state.config.color && state.config.color !== 'default') {
+      let match = state.templates.global.choices.colors.find(color => Object.keys(color)[0] === state.config.color);
+      option.color = Object.values(match)[0];
+    } 
     
 
     return option;

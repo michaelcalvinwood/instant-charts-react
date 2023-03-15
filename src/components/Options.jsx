@@ -1,5 +1,5 @@
 import './Options.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as lodash from 'lodash';
 
 function Options({config, setConfig, templates}) {
@@ -37,10 +37,19 @@ function Options({config, setConfig, templates}) {
    const configCopy = lodash.cloneDeep(config);
    configCopy.checked = !configCopy.checked;
    setConfig(configCopy);
-    
   }
 
-  
+  const handleColorSelection = e => {
+    const configCopy = lodash.cloneDeep(config);
+    configCopy.color = e.target.value;
+    setConfig(configCopy);
+  }
+
+  useEffect(() => {
+    const configCopy = lodash.cloneDeep(config);
+    configCopy.color = 'Default';
+    setConfig(configCopy);
+  }, [])
 
   return (
     <div className='options'>
@@ -71,12 +80,16 @@ function Options({config, setConfig, templates}) {
       <br />
 
       <div className='options--chart-label'>Color:</div>
-      <select className="options--chart-color-scheme" name="chartColorScheme" id="chartColorScheme">
-        <option key="default" value="default">Default</option>
-        {colors.map(color => {
-          const colorName = Object.keys(color)[0];
-          return <option key={colorName} value={colorName}>{colorName}</option>
-        })}
+      <select 
+        className="options--chart-color-scheme" 
+        name="chartColorScheme" 
+        id="chartColorScheme"
+        onChange={handleColorSelection}
+      >
+          {colors.map(color => {
+            const colorName = Object.keys(color)[0];
+            return <option key={colorName} value={colorName}>{colorName}</option>
+          })}
       </select>
     </div>
   )

@@ -6,6 +6,7 @@ function TemplateCard({selection, templateSelection, setTemplateSelection}) {
   return (
     <div 
         className={selection === templateSelection ? 'template-card template-card--active' : 'template-card'}
+        onClick={() => setTemplateSelection(selection)}
     >
         {selection}
     </div>

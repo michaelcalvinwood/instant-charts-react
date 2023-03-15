@@ -5,7 +5,7 @@ import lodash from 'lodash';
 
 function Chart({state}) {
   console.log('Chart state', state);
-  const minChartHeight = 300;
+  let minChartHeight = 300;
   const chartRef = useRef();
 
   const addConfig = optionOrig => {
@@ -71,18 +71,33 @@ function Chart({state}) {
      * Adjust chart placement based on total title & subtitle height
      */
 
-    const totalHeight = (titleHeight + subtitleHeight) * 2.5;
+    const totalHeight = (titleHeight + subtitleHeight) * 2.75;
 
-    chartRef.current.style.height = minChartHeight + totalHeight + 'px';
+    let minHeight;
+
+    if (option.info && option.info.minHeight) minHeight = option.info.minHeight;
+    else minHeight = minChartHeight;
+
+    chartRef.current.style.height = minHeight + totalHeight + 'px';
     //chartRef.current.innerHTML = '';
 
+    /*
+     * Adjust legend placement based on total title & subtitle height
+     */
+
+
     if (!state.config.checked) {
-      option.legend = {show: false}
+      option.legend.show = false
     }
     else {
       console.log('Legend True', state.templates.pie[state.templateSelection].desktop.legend);
       option.legend = state.templates.pie[state.templateSelection].desktop.legend;
       option.legend.show = true;
+    }
+
+    if (option.legend.top) {
+      option.legend.top = (titleHeight + subtitleHeight) + 24;
+      console.log("option legend top", option)
     }
 
     option.grid = {
@@ -119,7 +134,7 @@ function Chart({state}) {
         if (value.indexOf('%') !== -1) percentFlag = true;
         value = Number(value.replaceAll('%', ''));
       }
-      data.push({name, value})
+      data.push({name, value, percentFlag})
     }
 
     console.log('percentFlag', percentFlag);
@@ -168,7 +183,7 @@ function Chart({state}) {
 
   return (
     <div className='chart'>
-      <h2 className='chart--heading'>Chart</h2>
+      {/* <h2 className='chart--heading'>Chart</h2> */}
       <div id="theChart" ref={chartRef}>
 
       </div>

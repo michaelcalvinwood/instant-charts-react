@@ -30,7 +30,8 @@ pie.default.desktop = {
           backgroundColor: "rgba(0, 0, 0, .6)",
           textStyle: {
             color: 'white'
-          }
+          },
+          extraCssText: 'text-align:center'
         },
       legend: {
         orient: 'vertical',

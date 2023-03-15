@@ -116,8 +116,8 @@ function Chart({state}) {
 
     console.log('percentFlag', percentFlag);
 
-    if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}:<br>${a.value}%`;
-    else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}:<br>${a.value}`;
+    if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}%`;
+    else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;
     option.series[0].data = data;
    
     option = addConfig(option);

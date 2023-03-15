@@ -85,6 +85,12 @@ function Chart({state}) {
       option.legend.show = true;
     }
 
+    option.grid = {
+      bottom: 0
+    }
+
+    
+
     return option;
   }
 
@@ -92,12 +98,22 @@ function Chart({state}) {
     const {templates, templateSelection, chart, csv} = state;
 
     let option = templates.pie[templateSelection].desktop;
+    /*
+     * Set series data using csv
+     */
+    const data = [];
+
+    for (let i = 0; i < csv[0].length; ++i) {
+      data.push({
+        name: csv[0][i],
+        value: csv[1][i],
+      })
+    }
+
+    option.series[0].data = data;
    
     option = addConfig(option);
-    option.grid = {
-      bottom: 0
-    }
-    
+
     const chartDom = chartRef.current;
     var myChart = echarts.init(chartDom);
 
@@ -119,7 +135,7 @@ function Chart({state}) {
   }
 
   useEffect(() => {
-    if (state.csv) {
+    if (state.csv && state.csv.length) {
       switch(state.chart) {
         case 'pie':
           displayPieChart();

@@ -62,6 +62,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig}) => {
                     )}
                 </Dropzone>
            </div>
+           <div className="file-upload--embed-button">Embed</div>
            
         </div>
         

@@ -9,7 +9,7 @@ import template from './templates/template';
 
 function App() {
   const [templates, setTemplates] = useState(template);
-  const [templateSelection, setTemplateSelection] = useState('default');
+  const [templateSelection, setTemplateSelection] = useState('Default');
   const [chart, setChart] = useState('bar');
   const [csv, setCsv] = useState(null);
   const [config, setConfig] = useState({});

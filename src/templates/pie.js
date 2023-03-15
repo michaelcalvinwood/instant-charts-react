@@ -8,8 +8,8 @@ const pie = {};
  * Pie Default
  */
 
-pie.default = {};
-pie.default.desktop = {
+pie.Default = {};
+pie.Default.desktop = {
     info: {
       minHeight: 350
     },
@@ -90,8 +90,8 @@ pie.default.desktop = {
  * Pie Interior
  */
 
-pie.interior = {};
-pie.interior.desktop = {
+pie.Inside = {};
+pie.Inside.desktop = {
     title: {
       left: 'center',
       textStyle: {

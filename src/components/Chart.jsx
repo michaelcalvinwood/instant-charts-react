@@ -102,12 +102,16 @@ function Chart({state}) {
      * Set series data using csv
      */
     const data = [];
+    let percentFlag = false;
 
     for (let i = 0; i < csv[0].length; ++i) {
-      data.push({
-        name: csv[0][i],
-        value: csv[1][i],
-      })
+      const name = csv[0][i];
+      let value = csv[1][i];
+      if (typeof value === 'string') {
+        if (value.indexOf('%') !== -1) percentFlag = true;
+        value = Number(value.replaceAll('%', ''));
+      }
+      data.push({name, value})
     }
 
     option.series[0].data = data;

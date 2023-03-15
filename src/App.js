@@ -37,6 +37,7 @@ function App() {
       <Options 
         config={config}
         setConfig={setConfig}
+        templates={templates}
       />
       <Chart 
         state={state}

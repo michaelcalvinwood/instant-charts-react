@@ -2,8 +2,10 @@ import './Options.scss';
 import React from 'react';
 import * as lodash from 'lodash';
 
-function Options({config, setConfig}) {
-  console.log("Options", config);
+function Options({config, setConfig, templates}) {
+  console.log("Options", config, templates);
+
+  const { colors } = templates.global.choices;
 
   if (typeof config.checked === 'undefined') config.checked = true;
 
@@ -70,7 +72,11 @@ function Options({config, setConfig}) {
 
       <div className='options--chart-label'>Color:</div>
       <select className="options--chart-color-scheme" name="chartColorScheme" id="chartColorScheme">
-        <option value="default">Default</option>
+        <option key="default" value="default">Default</option>
+        {colors.map(color => {
+          const colorName = Object.keys(color)[0];
+          return <option key={colorName} value={colorName}>{colorName}</option>
+        })}
       </select>
     </div>
   )

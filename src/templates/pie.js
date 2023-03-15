@@ -6,7 +6,6 @@ const pie = {};
 
 pie.default = {};
 pie.default.desktop = {
-    
     title: {
       left: 'center',
       textStyle: {
@@ -24,7 +23,10 @@ pie.default.desktop = {
     },
      tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)",
+          formatter: (a, b) => {
+            console.log("tooltip", a, b);
+            return `${a.name}:<br>${a.value}`
+          },
           backgroundColor: "rgba(0, 0, 0, .6)",
           textStyle: {
             color: 'white'

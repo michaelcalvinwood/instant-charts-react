@@ -101,8 +101,8 @@ function Chart({state}) {
     /*
      * Set series data using csv
      */
-    const data = [];
     let percentFlag = false;
+    const data = [];
 
     for (let i = 0; i < csv[0].length; ++i) {
       const name = csv[0][i];
@@ -114,6 +114,10 @@ function Chart({state}) {
       data.push({name, value})
     }
 
+    console.log('percentFlag', percentFlag);
+
+    if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}:<br>${a.value}%`;
+    else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}:<br>${a.value}`;
     option.series[0].data = data;
    
     option = addConfig(option);

@@ -26,6 +26,7 @@ function App() {
         chart={chart}
         setChart={setChart}
         setCsv={setCsv}
+        setConfig={setConfig}
       />
       <Templates 
         templates={templates}

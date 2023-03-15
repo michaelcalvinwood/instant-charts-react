@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
-const FileUpload = ({chart, setChart, setCsv}) => {
+const FileUpload = ({chart, setChart, setCsv, setConfig}) => {
     const [fileName, setFileName] = useState('');
     
     const uploadFiles = files => {
@@ -24,6 +24,14 @@ const FileUpload = ({chart, setChart, setCsv}) => {
             console.log(response.data);
             setCsv(response.data);
             setFileName(files[0].name);
+            setConfig({
+                color: 'Default',
+                checked: true,
+                title: {
+                    text: '',
+                    subtext: ''
+                }
+            })
         })
         .catch(error => {
             console.error(error);

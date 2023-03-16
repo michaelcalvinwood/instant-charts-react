@@ -1,11 +1,13 @@
 import './FileUpload.scss';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
     const [fileName, setFileName] = useState('');
+    const embedCodeRef = useRef();
+    const embedButtonRef = useRef();
 
     const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString()}` : value);
 
@@ -28,7 +30,8 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
 
         axios(request)
         .then(response => {
-
+            embedButtonRef.current.style.display='none';
+            embedCodeRef.current.innerText = `<div id='pymntsChart--${id}></div>`;
         })
         .catch(error => {
             console.error(error);
@@ -38,6 +41,8 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
     }
     
     const uploadFiles = files => {
+        embedButtonRef.current.display='block';
+        embedCodeRef.current.innerText = '';
         const fd = new FormData();
         fd.append('chart', document.getElementById('chartType').value);
         console.log(files[0].name);
@@ -95,9 +100,15 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
            </div>
            <div 
                 onClick={handleEmbedButton}
-                className="file-upload--embed-button">
+                className="file-upload--embed-button"
+                ref={embedButtonRef}
+            >
                 Embed
             </div>
+            <p 
+                className='file-upload--embed-code'
+                ref={embedCodeRef}
+            ></p>
            
         </div>
         

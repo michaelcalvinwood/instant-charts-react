@@ -3,8 +3,20 @@ import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
-const FileUpload = ({chart, setChart, setCsv, setConfig}) => {
+const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
     const [fileName, setFileName] = useState('');
+
+    const stringify = token => JSON.stringify(test, (key, value) => typeof value === 'function' ? `${token}${value.toString()}` : value);
+
+
+    const handleEmbedButton = () => {
+        console.log('embed chartOption', chartOption);
+
+
+        // stringify all functions in chartOption
+
+        // stringify chartOption
+    }
     
     const uploadFiles = files => {
         const fd = new FormData();
@@ -62,7 +74,11 @@ const FileUpload = ({chart, setChart, setCsv, setConfig}) => {
                     )}
                 </Dropzone>
            </div>
-           <div className="file-upload--embed-button">Embed</div>
+           <div 
+                onClick={handleEmbedButton}
+                className="file-upload--embed-button">
+                Embed
+            </div>
            
         </div>
         
@@ -70,3 +86,4 @@ const FileUpload = ({chart, setChart, setCsv, setConfig}) => {
 }
 
 export default FileUpload;
+

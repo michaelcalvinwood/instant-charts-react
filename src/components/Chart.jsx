@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 import lodash from 'lodash';
 
-function Chart({state}) {
+function Chart({state, setChartOption, chartOption}) {
   console.log('Chart state', state);
   let minChartHeight = 300;
   const chartRef = useRef();
@@ -79,6 +79,10 @@ function Chart({state}) {
     else minHeight = minChartHeight;
 
     chartRef.current.style.height = minHeight + totalHeight + 'px';
+
+    if (!option.info) option.info = {containerHeight: minHeight + totalHeight};
+    else option.info.containerHeight = minHeight + totalHeight;
+
     //chartRef.current.innerHTML = '';
 
     /*
@@ -152,10 +156,27 @@ function Chart({state}) {
       height: 'auto'
     }});
 
-    console.log('Chart setOption', option);
-    myChart.setOption(option);
+    /*
+     * Update option state if different
+     */
 
+    const optionCopy = lodash.cloneDeep(option);
+    const chartOptionCopy = lodash.cloneDeep(chartOption);
+
+    console.log('Chart setOption', option, chartOption);
+
+    if (!lodash.isEqualWith(option, chartOption, (val1, val2) => {
+      if(lodash.isFunction(val1) && lodash.isFunction(val2)) {
+        return val1.toString() === val2.toString();
+      }
+    })) {
+      setChartOption(option);
+    }
+    
+    myChart.setOption(option);
+    
   }
+
 
   const displayLineChart = () => {
 

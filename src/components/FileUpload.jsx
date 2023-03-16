@@ -2,20 +2,19 @@ import './FileUpload.scss';
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
     const [fileName, setFileName] = useState('');
 
-    const stringify = token => JSON.stringify(test, (key, value) => typeof value === 'function' ? `${token}${value.toString()}` : value);
-
+    const stringify = (value, token) => JSON.stringify(test, (key, value) => typeof value === 'function' ? `${token}${value.toString()}` : value);
 
     const handleEmbedButton = () => {
         console.log('embed chartOption', chartOption);
 
-
-        // stringify all functions in chartOption
-
-        // stringify chartOption
+        const optionStr = stringify(chartOption, 'funcxyz_');
+        
+        const id = uuidv4();
     }
     
     const uploadFiles = files => {

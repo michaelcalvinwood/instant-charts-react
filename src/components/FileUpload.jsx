@@ -41,10 +41,11 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
     }
     
     const uploadFiles = files => {
+        console.log('files', files);
         embedButtonRef.current.display='block';
         embedCodeRef.current.innerText = '';
         const fd = new FormData();
-        fd.append('chart', document.getElementById('chartType').value);
+        //fd.append('chart', document.getElementById('chartType').value);
         console.log(files[0].name);
         files.forEach(file =>fd.append('File[]',file));
         const config = {  };
@@ -58,6 +59,13 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
         axios(request)
         .then((response) => {
             console.log(response.data);
+
+            const csvData = response.data;
+            const chartType = csvData[0][0] ? csvData[0][0].toLowerCase() : 'undefined';
+
+            console.log('chartType', chartType);
+            return;
+
             setCsv(response.data);
             setFileName(files[0].name);
             setConfig({

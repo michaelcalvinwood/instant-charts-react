@@ -9,7 +9,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
     const embedCodeRef = useRef();
     const embedButtonRef = useRef();
 
-    const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString()}` : value);
+    const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString().replaceAll("\n", ' ')}` : value);
 
     const handleEmbedButton = () => {
         console.log('embed chartOption', chartOption);
@@ -31,7 +31,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
         axios(request)
         .then(response => {
             embedButtonRef.current.style.display='none';
-            embedCodeRef.current.innerText = `<div id='pymntsChart--${id}></div>`;
+            embedCodeRef.current.innerText = `<div class='pymntsChart' id='${id}'></div>`;
         })
         .catch(error => {
             console.error(error);
@@ -80,11 +80,11 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
         <div className="file-upload">
             <h2 className="file-upload--input">Input</h2>
             <div className='file-upload--fileName'>{fileName}</div>
-            <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
+            {/* <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
                 <option value="bar">&nbsp;Bar</option>
                 <option value="line">&nbsp;Line</option>
                 <option value="pie">&nbsp;Pie</option>
-            </select>
+            </select> */}
            <div className="dropzone-container">
             <Dropzone 
                 onDrop={acceptedFiles => uploadFiles(acceptedFiles)}>
@@ -92,7 +92,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
                         <section>
                         <div {...getRootProps()}>
                             <input {...getInputProps()} />
-                            <p>Drag 'n' drop some files here.<br /> Or click to select files</p>
+                            <p>Drag 'n' drop chart csv file here.<br /> Or click to select file</p>
                         </div>
                         </section>
                     )}

@@ -11,7 +11,7 @@ function App() {
   const [templates, setTemplates] = useState(template);
   const [templateSelection, setTemplateSelection] = useState('Default');
   const [chart, setChart] = useState('bar');
-  const [csv, setCsv] = useState(null);
+  const [csv, setCsv] = useState([]);
   const [config, setConfig] = useState({});
   const [chartOption, setChartOption] = useState({});
 
@@ -37,11 +37,13 @@ function App() {
         chart={chart}
         templateSelection={templateSelection}
         setTemplateSelection={setTemplateSelection}
+        csv={csv}
       /> 
       <Options 
         config={config}
         setConfig={setConfig}
         templates={templates}
+        csv={csv}
       />
       <Chart 
         state={state}

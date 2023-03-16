@@ -2,7 +2,7 @@ import './Options.scss';
 import React, { useEffect } from 'react';
 import * as lodash from 'lodash';
 
-function Options({config, setConfig, templates}) {
+function Options({config, setConfig, templates, csv}) {
   console.log("Options", config, templates);
 
   const { colors } = templates.global.choices;
@@ -50,6 +50,12 @@ function Options({config, setConfig, templates}) {
     configCopy.color = 'Default';
     setConfig(configCopy);
   }, [])
+
+  if (!csv.length) return (
+    <div className='options'>
+      <h2 className="options--heading">Options</h2>
+    </div>
+  )
 
   return (
     <div className='options'>

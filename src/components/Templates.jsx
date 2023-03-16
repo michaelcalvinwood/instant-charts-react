@@ -3,13 +3,22 @@ import React from 'react';
 import template from '../templates/template';
 import TemplateCard from './TemplateCard';
 
-const Templates = ({templates, setTemplates, chart, templateSelection, setTemplateSelection}) => {
+const Templates = ({templates, setTemplates, chart, templateSelection, setTemplateSelection, csv}) => {
   console.log('template', template, Object.keys(template));
 
   let selections = [];
   if (templates[chart]) selections = Object.keys(templates[chart]);
   console.log("Templates selections", selections);
 
+  if (!csv.length) {
+    return (
+      <div className='templates'>
+        <h2 className='templates--heading'>
+            {chart.charAt(0).toUpperCase() + chart.slice(1)} Templates
+        </h2>
+      </div>
+    )
+  }
   return (
     <div className='templates'>
       <h2 className='templates--heading'>

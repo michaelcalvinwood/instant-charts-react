@@ -7,14 +7,34 @@ import { v4 as uuidv4 } from 'uuid';
 const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
     const [fileName, setFileName] = useState('');
 
-    const stringify = (value, token) => JSON.stringify(test, (key, value) => typeof value === 'function' ? `${token}${value.toString()}` : value);
+    const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString()}` : value);
 
     const handleEmbedButton = () => {
         console.log('embed chartOption', chartOption);
 
-        const optionStr = stringify(chartOption, 'funcxyz_');
-        
         const id = uuidv4();
+
+        const data = {};
+        data.option = stringify(chartOption, 'funcxyz_');
+        data.title = chartOption.title && chartOption.title.text ? chartOption.title.text : '';
+        data.subtitle = chartOption.title && chartOption.title.subtext ? chartOption.title.subtext : '';
+        data.meta = ''; // TODO: add support adding and updating meta info for searching later
+
+        const request = {
+            url: `https://charts.pymnts.com:6300/id/${id}`,
+            method: "post",
+            data
+        }
+
+        axios(request)
+        .then(response => {
+
+        })
+        .catch(error => {
+            console.error(error);
+            alert ('Error: Could not process request. Please try again.');
+        })
+        
     }
     
     const uploadFiles = files => {

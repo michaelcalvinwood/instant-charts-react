@@ -131,7 +131,7 @@ function Chart({state, setChartOption, chartOption}) {
     let percentFlag = false;
     const data = [];
 
-    for (let i = 0; i < csv[0].length; ++i) {
+    for (let i = 1; i < csv[0].length; ++i) {
       const name = csv[0][i];
       let value = csv[1][i];
       if (typeof value === 'string') {

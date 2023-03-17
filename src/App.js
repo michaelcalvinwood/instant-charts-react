@@ -29,6 +29,8 @@ function App() {
         setCsv={setCsv}
         setConfig={setConfig}
         chartOption={chartOption}
+        csv={csv}
+        setTemplateSelection={setTemplateSelection}
 
       />
       <Templates 

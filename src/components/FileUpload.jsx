@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
-const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
+const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTemplateSelection}) => {
     const [fileName, setFileName] = useState('');
     const embedCodeRef = useRef();
     const embedButtonRef = useRef();
@@ -64,10 +64,19 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
             const chartType = csvData[0][0] ? csvData[0][0].toLowerCase() : 'undefined';
 
             console.log('chartType', chartType);
-            return;
 
+            switch (chartType) {
+                case 'bar':
+                case 'pie':
+                case 'line':
+                    setChart(chartType);
+                    break;
+                default:
+                    return alert(`Uknown chart type in csv file: ${chartType}`);
+            }
             setCsv(response.data);
             setFileName(files[0].name);
+            setTemplateSelection('Default');
             setConfig({
                 color: 'Default',
                 checked: true,
@@ -108,7 +117,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption}) => {
            </div>
            <div 
                 onClick={handleEmbedButton}
-                className="file-upload--embed-button"
+                className={csv.length ? "file-upload--embed-button" : "file-upload--embed-button__hidden"}
                 ref={embedButtonRef}
             >
                 Embed

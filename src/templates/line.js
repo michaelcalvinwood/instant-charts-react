@@ -4,8 +4,15 @@ const line = {};
 line.Default = {
     desktop: {
         info: {
-            minHeight: 450
+            minHeight: 550
         },
+        tooltip: {
+            trigger: 'axis',
+            backgroundColor: "rgba(0, 0, 0, .6)",
+            textStyle: {
+              color: 'white'
+            },
+          },
         title: {
         left: 'center',
         textStyle: {
@@ -19,8 +26,8 @@ line.Default = {
             }
         },
         grid: {
-            bottom: 48,
-            containLabel: true
+            top: 0,
+           
         },
         toolbox: {
             feature: {

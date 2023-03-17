@@ -31,6 +31,7 @@ function App() {
         chartOption={chartOption}
         csv={csv}
         setTemplateSelection={setTemplateSelection}
+        setChartOption={setChartOption}
 
       />
       <Templates 

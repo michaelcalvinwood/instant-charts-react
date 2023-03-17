@@ -185,7 +185,7 @@ function Chart({state, setChartOption, chartOption}) {
     const info = [];
 
     for (let i = 1; i < csv.length; ++i) {
-      const name = csv[0][i];
+      const name = csv[i][0];
       console.log('csv[i]', csv[i], i);
       const data = [];
       for (let j = 1; j < csv[i].length; ++ j) {
@@ -199,6 +199,13 @@ function Chart({state, setChartOption, chartOption}) {
       
       info.push({name, data, type: 'line', stack: 'Total'});
     }
+
+    const data = [];
+    for (let i = 1; i < csv[0].length; ++i) {
+      data.push(csv[0][i]);
+    }
+
+    option.xAxis.data = data;
 
     option.series = info;
 

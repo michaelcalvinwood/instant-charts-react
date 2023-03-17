@@ -104,10 +104,6 @@ function Chart({state, setChartOption, chartOption}) {
       console.log("option legend top", option)
     }
 
-    option.grid = {
-      bottom: 0
-    }
-
     /*
      * Set color scheme
      */
@@ -180,30 +176,39 @@ function Chart({state, setChartOption, chartOption}) {
 
   const displayLineChart = () => { const {templates, templateSelection, chart, csv} = state;
 
-    let option = templates.pie[templateSelection].desktop;
+    let option = templates.line[templateSelection].desktop;
     /*
     * Set series data using csv
     */
-    // let percentFlag = false;
-    // const data = [];
 
-    // for (let i = 1; i < csv[0].length; ++i) {
-    //   const name = csv[0][i];
-    //   let value = csv[1][i];
-    //   if (typeof value === 'string') {
-    //     if (value.indexOf('%') !== -1) percentFlag = true;
-    //     value = Number(value.replaceAll('%', ''));
-    //   }
-    //   data.push({name, value, percentFlag})
-    // }
+    let percentFlag = false;
+    const info = [];
 
-    // console.log('percentFlag', percentFlag);
+    for (let i = 1; i < csv.length; ++i) {
+      const name = csv[0][i];
+      console.log('csv[i]', csv[i], i);
+      const data = [];
+      for (let j = 1; j < csv[i].length; ++ j) {
+        let value = csv[i][j];
+          if (typeof value === 'string') {
+            if (value.indexOf('%') !== -1) percentFlag = true;
+            value = Number(value.replaceAll('%', ''));
+          }  
+        data.push(csv[i][j]);
+      }
+      
+      info.push({name, data, type: 'line', stack: 'Total'});
+    }
+
+    option.series = info;
+
+    console.log('percentFlag', percentFlag);
 
     // if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}%`;
     // else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;
     // option.series[0].data = data;
   
-    // option = addConfig(option);
+    option = addConfig(option);
 
     const chartDom = chartRef.current;
     var myChart = echarts.init(chartDom);
@@ -216,18 +221,18 @@ function Chart({state, setChartOption, chartOption}) {
     * Update option state if different
     */
 
-    // const optionCopy = lodash.cloneDeep(option);
-    // const chartOptionCopy = lodash.cloneDeep(chartOption);
+    const optionCopy = lodash.cloneDeep(option);
+    const chartOptionCopy = lodash.cloneDeep(chartOption);
 
-    // console.log('Chart setOption', option, chartOption);
+    console.log('Chart setOption', option, chartOption);
 
-    // if (!lodash.isEqualWith(option, chartOption, (val1, val2) => {
-    //   if(lodash.isFunction(val1) && lodash.isFunction(val2)) {
-    //     return val1.toString() === val2.toString();
-    //   }
-    // })) {
-    //   setChartOption(option);
-    // }
+    if (!lodash.isEqualWith(option, chartOption, (val1, val2) => {
+      if(lodash.isFunction(val1) && lodash.isFunction(val2)) {
+        return val1.toString() === val2.toString();
+      }
+    })) {
+      setChartOption(option);
+    }
     
     myChart.setOption(option);
   }

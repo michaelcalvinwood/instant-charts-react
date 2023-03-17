@@ -4,7 +4,7 @@ const line = {};
 line.Default = {
     desktop: {
         info: {
-            minHeight: 350
+            minHeight: 450
         },
         title: {
         left: 'center',
@@ -19,8 +19,8 @@ line.Default = {
             }
         },
         grid: {
-        bottom: 0,
-        containLabel: true
+            bottom: 48,
+            containLabel: true
         },
         toolbox: {
             feature: {

@@ -75,6 +75,44 @@ function Chart({state, setChartOption, chartOption}) {
     
   }
 
+  function adjustContainerHeight (option) {
+        /*
+     * Adjust chart placement based on total title & subtitle height
+     */
+
+        const totalHeight = (getTitleHeight(option) + getSubtitleHeight(option)) * 2.75;
+
+        let minHeight;
+    
+        if (option.info && option.info.minHeight) minHeight = option.info.minHeight;
+        else minHeight = minChartHeight;
+    
+        chartRef.current.style.height = minHeight + totalHeight + 'px';
+    
+        if (!option.info) option.info = {containerHeight: minHeight + totalHeight};
+        else option.info.containerHeight = minHeight + totalHeight;
+  }
+
+  function adjustLegendPlacement (option) {
+    /*
+     * Adjust legend placement based on total title & subtitle height
+     */
+
+    if (!state.config.checked) {
+      option.legend.show = false
+    }
+    else {
+      console.log('Legend True', state.templates.pie[state.templateSelection].desktop.legend);
+      option.legend = state.templates.pie[state.templateSelection].desktop.legend;
+      option.legend.show = true;
+    }
+
+    if (option.legend.top) {
+      option.legend.top = (getTitleHeight(option) + getSubtitleHeight(option)) + 24;
+      console.log("option legend top", option)
+    }
+  }
+
   function setColorScheme (option) {
 
     /*
@@ -90,11 +128,19 @@ function Chart({state, setChartOption, chartOption}) {
 
   const adjustLinePlacement = optionOrig => {
     const option = lodash.cloneDeep(optionOrig);
+    console.log('adjustLinePlacement', option);
 
     setTheTitles(option);
     const titleHeight = getTitleHeight(option);
     const subtitleHeight = getSubtitleHeight(option);
     setColorScheme(option);
+    console.log('height variables', chartRef.current.offsetHeight, option.info.minHeight)
+    if (chartRef.current.offsetHeight < option.info.minHeight) chartRef.current.style.height = option.info.minHeight + 'px';
+    
+    //adjustContainerHeight(option);
+    adjustLegendPlacement(option);
+
+    option.grid.top = titleHeight + subtitleHeight + 48;
 
     return option;
   }
@@ -106,41 +152,8 @@ function Chart({state, setChartOption, chartOption}) {
     const titleHeight = getTitleHeight(option);
     const subtitleHeight = getSubtitleHeight(option);
     setColorScheme(option);
-
-    /*
-     * Adjust chart placement based on total title & subtitle height
-     */
-
-    const totalHeight = (titleHeight + subtitleHeight) * 2.75;
-
-    let minHeight;
-
-    if (option.info && option.info.minHeight) minHeight = option.info.minHeight;
-    else minHeight = minChartHeight;
-
-    chartRef.current.style.height = minHeight + totalHeight + 'px';
-
-    if (!option.info) option.info = {containerHeight: minHeight + totalHeight};
-    else option.info.containerHeight = minHeight + totalHeight;
-
-    /*
-     * Adjust legend placement based on total title & subtitle height
-     */
-
-
-    if (!state.config.checked) {
-      option.legend.show = false
-    }
-    else {
-      console.log('Legend True', state.templates.pie[state.templateSelection].desktop.legend);
-      option.legend = state.templates.pie[state.templateSelection].desktop.legend;
-      option.legend.show = true;
-    }
-
-    if (option.legend.top) {
-      option.legend.top = (titleHeight + subtitleHeight) + 24;
-      console.log("option legend top", option)
-    }
+    adjustContainerHeight(option);
+    adjustLegendPlacement(option);
 
     return option;
   }

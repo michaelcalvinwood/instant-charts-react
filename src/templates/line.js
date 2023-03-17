@@ -4,7 +4,7 @@ const line = {};
 line.Default = {
     desktop: {
         info: {
-            minHeight: 550
+            minHeight: 450
         },
         tooltip: {
             trigger: 'axis',
@@ -26,8 +26,18 @@ line.Default = {
             }
         },
         grid: {
-            top: 0,
-           
+            top: 20,    
+        },
+        legend: {
+            show: true,
+            orient: 'horizontal',
+            position: 'bottom',
+            left: 10,
+            bottom: 0,
+            textStyle: {
+                  fontSize: 15,
+                  color: 'black'
+            }
         },
         toolbox: {
             feature: {

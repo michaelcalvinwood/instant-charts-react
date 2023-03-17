@@ -79,7 +79,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
             const loc = lastIndexOf('.');
           
             const fileNameParts = fileName.substring(0, fileName.lastIndexOf('.') !== -1 ? fileName.lastIndexOf('.') : fileName.length).split('--');
-            const title = fileNameParts[0].trim();
+            let title = fileNameParts[0].trim();
             const subtitle = fileNameParts.length > 1 ? fileNameParts[1].trim() : '';
             setCsv(response.data);
             setFileName(fileName);

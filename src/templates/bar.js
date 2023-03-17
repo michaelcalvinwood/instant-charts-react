@@ -1,7 +1,7 @@
 import global from "./global";
 
 const bar = {
-    default: {
+    Default: {
         option: {
             title: {
             text: 'Hello',

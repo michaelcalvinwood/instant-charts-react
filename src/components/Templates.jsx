@@ -4,7 +4,7 @@ import template from '../templates/template';
 import TemplateCard from './TemplateCard';
 
 const Templates = ({templates, setTemplates, chart, templateSelection, setTemplateSelection, csv}) => {
-  console.log('template', template, Object.keys(template));
+  console.log('template', templateSelection, template, Object.keys(template));
 
   let selections = [];
   if (templates[chart]) selections = Object.keys(templates[chart]);

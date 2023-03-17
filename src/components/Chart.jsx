@@ -3,17 +3,16 @@ import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 import lodash from 'lodash';
 
+
 function Chart({state, setChartOption, chartOption}) {
   console.log('Chart state', state);
   let minChartHeight = 300;
   const chartRef = useRef();
 
-  const addConfig = optionOrig => {
-    const option = lodash.cloneDeep(optionOrig);
-
-    /*
-     * Set the title
-     */
+  function setTheTitles (option) {
+      /*
+      * Set the title
+      */
 
     if (state.config && state.config.title && state.config.title.text) {
       if (!option.title) {
@@ -24,26 +23,28 @@ function Chart({state, setChartOption, chartOption}) {
     }
 
     /*
-     * Set the subtitle
-     */
+      * Set the subtitle
+      */
 
-    if (state.config && state.config.title && state.config.title.subtext) {
-      if (!option.title) {
-        option.title = state.config.title
-      } else option.title.subtext = state.config.title.subtext.replaceAll('<br>', "\n");
-    } else {
-      if (option.title) option.title.subtext = '';
-    }
+      if (state.config && state.config.title && state.config.title.subtext) {
+        if (!option.title) {
+          option.title = state.config.title
+        } else option.title.subtext = state.config.title.subtext.replaceAll('<br>', "\n");
+      } else {
+        if (option.title) option.title.subtext = '';
+      }
+  }  
 
+  function getTitleHeight (option) {
     /*
-     * Calculate titleHeight
-     */
+    * Calculate titleHeight
+    */
 
     let titleFontSize = option.title && option.title.textStyle && option.title.textStyle.fontSize ?
-      option.title.textStyle.fontSize : 
-      16;
+    option.title.textStyle.fontSize : 
+    16;
 
-   
+    
     let numTitleLines = 0;
     if (option.title.text) {
       numTitleLines = option.title.text.split("\n").length;
@@ -51,21 +52,60 @@ function Chart({state, setChartOption, chartOption}) {
 
     const titleHeight = numTitleLines * titleFontSize;
 
+    return titleHeight;
+  }
+
+  function getSubtitleHeight (option) {
     /*
-     * Calculate subtitleHeight
-     */
+    * Calculate subtitleHeight
+    */
 
     let subtitleFontSize = option.title && option.title.subtextStyle && option.title.subtextStyle.fontSize ?
     option.title.subtextStyle.fontSize : 
     16;
 
-   
+  
     let numSubtitleLines = 0;
     if (option.title.subtext) {
       numSubtitleLines = option.title.subtext.split("\n").length;
     }
 
     const subtitleHeight = numSubtitleLines * subtitleFontSize;
+    return subtitleHeight;
+    
+  }
+
+  function setColorScheme (option) {
+
+    /*
+     * Set color scheme
+     */
+
+    if (state.config.color && state.config.color !== 'default') {
+      let match = state.templates.global.choices.colors.find(color => Object.keys(color)[0] === state.config.color);
+      option.color = Object.values(match)[0];
+    } 
+    
+  }
+
+  const adjustLinePlacement = optionOrig => {
+    const option = lodash.cloneDeep(optionOrig);
+
+    setTheTitles(option);
+    const titleHeight = getTitleHeight(option);
+    const subtitleHeight = getSubtitleHeight(option);
+    setColorScheme(option);
+
+    return option;
+  }
+
+  const adjustPiePlacement = optionOrig => {
+    const option = lodash.cloneDeep(optionOrig);
+
+    setTheTitles(option);
+    const titleHeight = getTitleHeight(option);
+    const subtitleHeight = getSubtitleHeight(option);
+    setColorScheme(option);
 
     /*
      * Adjust chart placement based on total title & subtitle height
@@ -82,8 +122,6 @@ function Chart({state, setChartOption, chartOption}) {
 
     if (!option.info) option.info = {containerHeight: minHeight + totalHeight};
     else option.info.containerHeight = minHeight + totalHeight;
-
-    //chartRef.current.innerHTML = '';
 
     /*
      * Adjust legend placement based on total title & subtitle height
@@ -103,16 +141,6 @@ function Chart({state, setChartOption, chartOption}) {
       option.legend.top = (titleHeight + subtitleHeight) + 24;
       console.log("option legend top", option)
     }
-
-    /*
-     * Set color scheme
-     */
-
-    if (state.config.color && state.config.color !== 'default') {
-      let match = state.templates.global.choices.colors.find(color => Object.keys(color)[0] === state.config.color);
-      option.color = Object.values(match)[0];
-    } 
-    
 
     return option;
   }
@@ -143,7 +171,7 @@ function Chart({state, setChartOption, chartOption}) {
     else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;
     option.series[0].data = data;
    
-    option = addConfig(option);
+    option = adjustPiePlacement(option);
 
     const chartDom = chartRef.current;
     var myChart = echarts.init(chartDom);
@@ -215,7 +243,7 @@ function Chart({state, setChartOption, chartOption}) {
     // else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;
     // option.series[0].data = data;
   
-    option = addConfig(option);
+    option = adjustLinePlacement(option);
 
     const chartDom = chartRef.current;
     var myChart = echarts.init(chartDom);

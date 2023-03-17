@@ -178,8 +178,58 @@ function Chart({state, setChartOption, chartOption}) {
   }
 
 
-  const displayLineChart = () => {
+  const displayLineChart = () => { const {templates, templateSelection, chart, csv} = state;
 
+    let option = templates.pie[templateSelection].desktop;
+    /*
+    * Set series data using csv
+    */
+    // let percentFlag = false;
+    // const data = [];
+
+    // for (let i = 1; i < csv[0].length; ++i) {
+    //   const name = csv[0][i];
+    //   let value = csv[1][i];
+    //   if (typeof value === 'string') {
+    //     if (value.indexOf('%') !== -1) percentFlag = true;
+    //     value = Number(value.replaceAll('%', ''));
+    //   }
+    //   data.push({name, value, percentFlag})
+    // }
+
+    // console.log('percentFlag', percentFlag);
+
+    // if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}%`;
+    // else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;
+    // option.series[0].data = data;
+  
+    // option = addConfig(option);
+
+    const chartDom = chartRef.current;
+    var myChart = echarts.init(chartDom);
+
+    myChart.resize({opts: {
+      height: 'auto'
+    }});
+
+    /*
+    * Update option state if different
+    */
+
+    // const optionCopy = lodash.cloneDeep(option);
+    // const chartOptionCopy = lodash.cloneDeep(chartOption);
+
+    // console.log('Chart setOption', option, chartOption);
+
+    // if (!lodash.isEqualWith(option, chartOption, (val1, val2) => {
+    //   if(lodash.isFunction(val1) && lodash.isFunction(val2)) {
+    //     return val1.toString() === val2.toString();
+    //   }
+    // })) {
+    //   setChartOption(option);
+    // }
+    
+    myChart.setOption(option);
   }
 
   const displayBarChart = () => {

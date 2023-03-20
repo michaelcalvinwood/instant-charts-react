@@ -6,6 +6,7 @@
     right: 0;
     border: 1px solid  var(--primary-color);
     padding: 0 1rem;
+    overflow-y: auto;
 
     &--heading {
         text-align: center;
@@ -19,7 +20,7 @@
     }
     &--chart-title, &--chart-subtitle {
         display: inline-block;
-        width: 40rem;
+        width: 30rem;
     }
     &--color-list {
         margin: 0 0 0 5rem;
@@ -28,5 +29,13 @@
         width: 10rem;
         text-align: center;
     }
-
+    &__source-label {
+        width: 5rem;
+        margin: 1rem 0 0 0;
+    }
+    &__chart-source {
+        display: inline-block;
+        width: 40rem;   
+        margin: .25rem 0 0 0;
+    }
 }

@@ -59,7 +59,7 @@ function Options({config, setConfig, templates, csv}) {
 
   return (
     <div className='options'>
-      <h2 className="options--heading">Options</h2>
+      {/* <h2 className="options--heading">Options</h2> */}
       
       <div className='options--chart-label'>Title:</div>
       <input 
@@ -80,6 +80,7 @@ function Options({config, setConfig, templates, csv}) {
         value={config.title && config.title.subtext ? config.title.subtext : ''} 
         onChange={handleSubtitle}/>
       <br />
+     
       
       <div className='options--chart-label'>Legend:</div> 
       <input type="checkbox" name="chartLegend" id="chartLegend" checked={config.checked} onChange={handleLegend}/>
@@ -97,6 +98,9 @@ function Options({config, setConfig, templates, csv}) {
             return <option key={colorName} value={colorName}>{colorName}</option>
           })}
       </select>
+      <br />
+      <div className="options__source-label">Source:</div>
+      <textarea rows="4" id="chartSource" className='options__chart-source'/>
     </div>
   )
 }

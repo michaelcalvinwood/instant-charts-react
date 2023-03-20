@@ -102,8 +102,8 @@ function Chart({state, setChartOption, chartOption}) {
       option.legend.show = false
     }
     else {
-      console.log('Legend True', state.templates.pie[state.templateSelection].desktop.legend);
-      option.legend = state.templates.pie[state.templateSelection].desktop.legend;
+      console.log('Legend True', state.templates[state.chart][state.templateSelection].desktop.legend);
+      option.legend = state.templates[state.chart][state.templateSelection].desktop.legend;
       option.legend.show = true;
     }
 

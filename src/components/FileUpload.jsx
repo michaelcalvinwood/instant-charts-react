@@ -9,6 +9,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
     const [fileName, setFileName] = useState('');
     const embedCodeRef = useRef();
     const embedButtonRef = useRef();
+    const metaAreaRef = useRef();
 
     const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString().replaceAll("\n", ' ')}` : value);
 
@@ -92,6 +93,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
                     subtext: subtitle
                 }
             })
+            metaAreaRef.current.style.visibility = 'visible';
         })
         .catch(error => {
             console.error(error.message, error.code);
@@ -127,6 +129,11 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
                         </section>
                     )}
                 </Dropzone>
+           </div>
+           <div ref={metaAreaRef} className="file-upload__chartMetaContainer">
+                <h3 className='file-upload__metaDataLabel'>Meta Data</h3>
+                <textarea rows="3"          className="file-upload__metaDataInput" type="textarea" name="chartMeta" id="chartMeta" />
+              
            </div>
            <div 
                 onClick={handleEmbedButton}

@@ -3,7 +3,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 33vh;
+    height: 40vh;
     border: 1px solid var(--primary-color);
 
     &--input {
@@ -22,6 +22,22 @@
         width: 4rem;
         display: block;
         text-align: center;
+    }
+    &__chartMetaContainer {
+        margin: 1rem auto .5rem auto;
+        width: 80%;
+        visibility: hidden;
+    }
+    &__metaDataLabel {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: .5rem;
+    }
+    &__metaDataInput {
+        width: 100%;
+        border: 2px solid var(--primary-color);
+        border-radius: 4px;
+        padding: .25rem .5rem;
     }
     &--embed-button {
         padding: .25rem .5rem;

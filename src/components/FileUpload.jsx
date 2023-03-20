@@ -10,6 +10,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
     const embedCodeRef = useRef();
     const embedButtonRef = useRef();
     const metaAreaRef = useRef();
+    const metaInputRef = useRef();
 
     const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString().replaceAll("\n", ' ')}` : value);
 
@@ -18,11 +19,14 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
         const id = uuidv4();
 
+        const meta = {};
+        meta.info = metaInputRef.value;
+
         const data = {};
         data.option = stringify(chartOption, 'funcxyz_');
         data.title = chartOption.title && chartOption.title.text ? chartOption.title.text : '';
         data.subtitle = chartOption.title && chartOption.title.subtext ? chartOption.title.subtext : '';
-        data.meta = ''; // TODO: add support adding and updating meta info for searching later
+        data.meta = JSON.stringify(meta);
 
         const request = {
             url: `https://charts.pymnts.com:6300/id/${id}`,
@@ -132,7 +136,14 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
            </div>
            <div ref={metaAreaRef} className="file-upload__chartMetaContainer">
                 <h3 className='file-upload__metaDataLabel'>Meta Data</h3>
-                <textarea rows="3"          className="file-upload__metaDataInput" type="textarea" name="chartMeta" id="chartMeta" />
+                <textarea 
+                    ref={metaInputRef}
+                    rows="3" 
+                    className="file-upload__metaDataInput" 
+                    type="textarea" 
+                    name="chartMeta" 
+                    id="chartMeta" 
+                />
               
            </div>
            <div 

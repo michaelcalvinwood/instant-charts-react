@@ -242,7 +242,7 @@ function Chart({state, setChartOption, chartOption}) {
         if (value > maxValue) maxValue = value;
       }
       
-      info.push({name, data, type: 'line', stack: 'Total'});
+      info.push({name, data, type: 'line'});
     }
 
     const data = [];

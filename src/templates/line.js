@@ -50,8 +50,8 @@ line.Default = {
             data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         },
         yAxis: {
-          type: 'category',
-          min: 0
+          type: 'value',
+          min: 'dataMin'
         },
         series: [
           

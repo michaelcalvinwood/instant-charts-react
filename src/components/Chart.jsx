@@ -126,6 +126,18 @@ function Chart({state, setChartOption, chartOption}) {
     
   }
 
+  function setMetaData (option) {
+    if (typeof option.info === 'undefined') option.info = {
+      source: state.config.source ? state.config.source : '',
+      meta: state.config.meta ? state.config.meta : ''
+    }; 
+    else {
+      option.info.source = state.config.source ? state.config.source : '';
+      option.info.meta = state.config.meta ? state.config.meta : '';
+    }
+
+  }
+
   const adjustLinePlacement = optionOrig => {
     const option = lodash.cloneDeep(optionOrig);
     console.log('adjustLinePlacement', option);
@@ -185,6 +197,7 @@ function Chart({state, setChartOption, chartOption}) {
     option.series[0].data = data;
    
     option = adjustPiePlacement(option);
+    option = setMetaData(option);
 
     const chartDom = chartRef.current;
     var myChart = echarts.init(chartDom);
@@ -218,6 +231,7 @@ function Chart({state, setChartOption, chartOption}) {
   const displayLineChart = () => { const {templates, templateSelection, chart, csv} = state;
 
     let option = templates.line[templateSelection].desktop;
+    console.log('displayLineChart option', option);
     
     /*
     * Set series data using csv
@@ -261,6 +275,7 @@ function Chart({state, setChartOption, chartOption}) {
     // option.series[0].data = data;
   
     option = adjustLinePlacement(option);
+    setMetaData(option);
 
     const chartDom = chartRef.current;
     var myChart = echarts.init(chartDom);
@@ -315,6 +330,11 @@ function Chart({state, setChartOption, chartOption}) {
       <div id="theChart" ref={chartRef}>
 
       </div>
+      { state.config && state.config.source && <div className='chart__source'>
+          Source: <span dangerouslySetInnerHTML={{__html: state.config.source}}></span>
+        </div>
+
+      }
       
     </div>
   )

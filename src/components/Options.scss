@@ -30,12 +30,13 @@
         text-align: center;
     }
     &__source-label {
-        width: 5rem;
+        
         margin: 1rem 0 0 0;
     }
     &__chart-source {
         display: inline-block;
         width: 40rem;   
         margin: .25rem 0 0 0;
+        padding: .25rem .5rem;
     }
 }

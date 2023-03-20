@@ -33,6 +33,16 @@ function Options({config, setConfig, templates, csv}) {
     setConfig(configCopy);
   }
 
+  const handleSource = e => {
+    const configCopy = lodash.cloneDeep(config);
+    if (typeof configCopy.source === 'undefined') {
+      configCopy.source = e.target.value
+    } else {
+      configCopy.source = e.target.value;
+    }
+    setConfig(configCopy);
+  }
+
   const handleLegend = e => {
    const configCopy = lodash.cloneDeep(config);
    configCopy.checked = !configCopy.checked;
@@ -81,7 +91,6 @@ function Options({config, setConfig, templates, csv}) {
         onChange={handleSubtitle}/>
       <br />
      
-      
       <div className='options--chart-label'>Legend:</div> 
       <input type="checkbox" name="chartLegend" id="chartLegend" checked={config.checked} onChange={handleLegend}/>
       <br />
@@ -99,8 +108,14 @@ function Options({config, setConfig, templates, csv}) {
           })}
       </select>
       <br />
-      <div className="options__source-label">Source:</div>
-      <textarea rows="4" id="chartSource" className='options__chart-source'/>
+      <div className="options__source-label">Source (HTML):</div>
+      <textarea 
+        rows="4" 
+        id="chartSource" 
+        className='options__chart-source'
+        value={config.source ? config.source : ''}
+        onChange={handleSource}
+      />
     </div>
   )
 }

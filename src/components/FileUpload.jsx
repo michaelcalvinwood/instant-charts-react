@@ -3,9 +3,9 @@ import React, { useState, useRef } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import { lastIndexOf } from 'lodash';
+import { lastIndexOf, cloneDeep } from 'lodash';
 
-const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTemplateSelection, setChartOption}) => {
+const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTemplateSelection, setChartOption, config}) => {
     const [fileName, setFileName] = useState('');
     const embedCodeRef = useRef();
     const embedButtonRef = useRef();
@@ -14,19 +14,22 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
     const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString().replaceAll("\n", ' ')}` : value);
 
+    const handleMetaData = e => {
+        const configClone = cloneDeep(config);
+        configClone.meta = e.target.value;
+        setConfig(configClone);
+    }
     const handleEmbedButton = () => {
         console.log('embed chartOption', chartOption);
 
         const id = uuidv4();
 
-        const meta = {};
-        meta.info = metaInputRef.value;
 
         const data = {};
         data.option = stringify(chartOption, 'funcxyz_');
         data.title = chartOption.title && chartOption.title.text ? chartOption.title.text : '';
         data.subtitle = chartOption.title && chartOption.title.subtext ? chartOption.title.subtext : '';
-        data.meta = JSON.stringify(meta);
+        data.meta = JSON.stringify({meta: chartOption.info.meta, source: chartOption.info.source})
 
         const request = {
             url: `https://charts.pymnts.com:6300/id/${id}`,
@@ -137,7 +140,8 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
            <div ref={metaAreaRef} className="file-upload__chartMetaContainer">
                 <h3 className='file-upload__metaDataLabel'>Meta Data</h3>
                 <textarea 
-                    ref={metaInputRef}
+                    onChange={handleMetaData}
+                    value={config.meta ? config.meta : ''}
                     rows="3" 
                     className="file-upload__metaDataInput" 
                     type="textarea" 

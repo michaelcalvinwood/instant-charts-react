@@ -11,10 +11,14 @@
         text-align: center;
         margin: 1rem 0 1rem 0;
     }
+    &__source {
+        width: 90%;
+        margin: auto;
+    }
 }
 
 #theChart {
     width: 90%;
     height: 300px;
-    margin: auto;
+    margin: .5rem auto;
 }

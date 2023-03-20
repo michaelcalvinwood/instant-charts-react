@@ -218,9 +218,12 @@ function Chart({state, setChartOption, chartOption}) {
   const displayLineChart = () => { const {templates, templateSelection, chart, csv} = state;
 
     let option = templates.line[templateSelection].desktop;
+    
     /*
     * Set series data using csv
     */
+
+    let maxValue = -1;
 
     let percentFlag = false;
     const info = [];
@@ -236,6 +239,7 @@ function Chart({state, setChartOption, chartOption}) {
             value = Number(value.replaceAll('%', ''));
           }  
         data.push(csv[i][j]);
+        if (value > maxValue) maxValue = value;
       }
       
       info.push({name, data, type: 'line', stack: 'Total'});

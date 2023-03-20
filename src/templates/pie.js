@@ -28,6 +28,11 @@ pie.Default.desktop = {
     grid: {
       bottom: 0
     },
+    toolbox: {
+      feature: {
+      saveAsImage: {}
+      }
+    },
      tooltip: {
           trigger: "item",
           formatter: (a) => {

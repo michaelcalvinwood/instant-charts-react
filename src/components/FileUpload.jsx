@@ -94,8 +94,14 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
             })
         })
         .catch(error => {
-            console.error(error);
-            alert('Error: Could not process CSV. Please reformat file.');
+            console.error(error.message, error.code);
+            switch (error.code) {
+                case 'ERR_NETWORK':
+                    alert ("Error: Instant Charts server is down.\nPlease contact admin@pymnts.com.");
+                    break;
+                default:
+                    alert('Error: Could not process CSV. Please reformat file.');
+            }
             setCsv([]);
         })
     }

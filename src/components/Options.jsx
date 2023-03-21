@@ -9,6 +9,7 @@ function Options({config, setConfig, templates, csv, embedCode}) {
 
   if (typeof config.checked === 'undefined') config.checked = true;
   if (typeof config.percent === 'undefined') config.percent = false;
+  if (typeof config.decimal === 'undefined') config.decimal = 0;
 
   const handleTitle = e => {
     const configCopy = lodash.cloneDeep(config);
@@ -110,7 +111,13 @@ function Options({config, setConfig, templates, csv, embedCode}) {
       <br />
 
       <div className='options__chart-label'>Percent:</div> 
-      <input type="checkbox" name="chartLegend" id="chartLegend" 
+      <input type="checkbox" name="chartPercent" id="chartPercent" 
+        checked={config.percent} onChange={handlePercent}
+      />
+      <br />
+
+      <div className='options__chart-label'>Decimal:</div> 
+      <input type="number" min="0" max="6" step="1" name="chartDecimal" id="chartDecimal" value={config.decimal} className="options__chart-decimal"
         checked={config.percent} onChange={handlePercent}
       />
       <br />

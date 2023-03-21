@@ -45,6 +45,7 @@ function App() {
         templateSelection={templateSelection}
         setTemplateSelection={setTemplateSelection}
         csv={csv}
+        embedCode={embedCode}
       /> 
       <Options 
         config={config}

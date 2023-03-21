@@ -3,12 +3,14 @@ import React from 'react';
 import template from '../templates/template';
 import TemplateCard from './TemplateCard';
 
-const Templates = ({templates, setTemplates, chart, templateSelection, setTemplateSelection, csv}) => {
+const Templates = ({templates, setTemplates, chart, templateSelection, setTemplateSelection, csv, embedCode}) => {
   console.log('template', templateSelection, template, Object.keys(template));
 
   let selections = [];
   if (templates[chart]) selections = Object.keys(templates[chart]);
   console.log("Templates selections", selections);
+
+  if (embedCode) return <div className='templates'></div>
 
   if (!csv.length) {
     return (

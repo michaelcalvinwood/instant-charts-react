@@ -52,6 +52,7 @@ function App() {
         setConfig={setConfig}
         templates={templates}
         csv={csv}
+        embedCode={embedCode}
       />
       <Chart 
         state={state}

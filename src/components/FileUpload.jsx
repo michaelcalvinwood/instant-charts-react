@@ -14,6 +14,11 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
     const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString().replaceAll("\n", ' ')}` : value);
     const capitalized = word => word.charAt(0).toUpperCase() + word.slice(1);
 
+    const processLineCsv = (CSV) => {
+        console.log('processLineCsv', CSV);
+        
+    }
+
     const processPieCsv = (CSV) => {
         if (CSV[0][0] === 'sep=') {
             for (let i = 1; i < CSV.length; ++i) {
@@ -32,7 +37,9 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
             case 'pie':
                 CSV = processPieCsv(CSV);
                 break;
-        
+            case 'line':
+                CSV = processLineCsv(CSV);
+                break;
         }
 
         return CSV;
@@ -43,15 +50,19 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
         configClone.meta = e.target.value;
         setConfig(configClone);
     }
+
     const handleEmbedButton = () => {
-        console.log('embed chartOption', chartOption);
+        console.log('embed chartOption', chartOption);   
+        console.log('embed config', config);
+        const option = cloneDeep(chartOption);
+        option.info.config = config;
 
         const id = uuidv4();
         const data = {};
-        data.option = stringify(chartOption, 'funcxyz_');
-        data.title = chartOption.title && chartOption.title.text ? chartOption.title.text : '';
-        data.subtitle = chartOption.title && chartOption.title.subtext ? chartOption.title.subtext : '';
-        data.meta = JSON.stringify({meta: chartOption.info.meta, source: chartOption.info.source})
+
+        data.option = stringify(option, 'funcxyz_');
+        
+        console.log('stringified', data.option);
 
         const request = {
             url: `https://charts.pymnts.com:6300/id/${id}`,
@@ -61,9 +72,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
         axios(request)
         .then(response => {
-            
             setEmbedCode(`<div class='pymntsChart' id='${id}'></div>`);
-           
         })
         .catch(error => {
             console.error(error);
@@ -114,7 +123,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
             const standardizedCsv = processCsv(response.data);
             console.log('FileUpload standardizedCsv', standardizedCsv);
-            //return;
+            return;
             setCsv(standardizedCsv);
             setFileName(fileName);
             setTemplateSelection('Default');

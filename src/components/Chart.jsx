@@ -8,6 +8,7 @@ function Chart({state, setChartOption, chartOption}) {
   console.log('Chart state', state);
   let minChartHeight = 300;
   const chartRef = useRef();
+  let percentFlag = false;
 
   function setTheTitles (option) {
     console.log('setTheTitles option', option);
@@ -204,6 +205,26 @@ function Chart({state, setChartOption, chartOption}) {
     myChart.setOption(option);
   }
 
+  const convertValue = value => {
+    if (typeof value === 'string') {
+      if (value.indexOf('%') !== -1) {
+        percentFlag = true;
+        value = Number(value.replaceAll('%', ''));
+      } else if (state.config.percent) {
+        value = Number(value) * 100;
+        percentFlag = true;
+      } else value = Number(value);
+    } else {
+      if (state.config.percent) {
+        value = value * 100;
+        percentFlag = true;
+      }
+    }
+
+    console.log('convertValue', value, state.config.decimal);
+    return value.toFixed(state.config.decimal );
+  }
+
   const displayPieChart = () => {
     const {templates, templateSelection, chart, csv} = state;
     console.log('displayPieChart templateSelection', templateSelection, state.config.percent);
@@ -214,30 +235,13 @@ function Chart({state, setChartOption, chartOption}) {
     /*
      * Set series data using csv
      */
-    let percentFlag = false;
     const data = [];
 
     for (let i = 1; i < csv.length; ++i) {
       const name = csv[i][0];
-      let value = csv[i][1];
-      if (typeof value === 'string') {
-        if (value.indexOf('%') !== -1) {
-          percentFlag = true;
-          value = Number(value.replaceAll('%', ''));
-        } else if (state.config.percent) {
-          value = Number(value) * 100;
-          percentFlag = true;
-        } else value = Number(value);
-      } else {
-        if (state.config.percent) {
-          value = value * 100;
-          percentFlag = true;
-        }
-      }
+      let value = convertValue(csv[i][1]);
       data.push({name, value, percentFlag})
     }
-
-    console.log('percentFlag', percentFlag);
 
     if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}%`;
     else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;

@@ -56,6 +56,12 @@ function Options({config, setConfig, templates, csv, embedCode}) {
     configCopy.percent = !configCopy.percent;
     setConfig(configCopy);
    }
+
+  const handleDecimal = e => {
+    const configCopy = lodash.cloneDeep(config);
+    configCopy.decimal = e.target.value;
+    setConfig(configCopy);
+  }
  
   const handleColorSelection = e => {
     const configCopy = lodash.cloneDeep(config);
@@ -118,7 +124,7 @@ function Options({config, setConfig, templates, csv, embedCode}) {
 
       <div className='options__chart-label'>Decimal:</div> 
       <input type="number" min="0" max="6" step="1" name="chartDecimal" id="chartDecimal" value={config.decimal} className="options__chart-decimal"
-        checked={config.percent} onChange={handlePercent}
+        checked={config.percent} onChange={handleDecimal}
       />
       <br />
 

@@ -129,6 +129,7 @@ function Chart({state, setChartOption, chartOption}) {
   }
 
   function setMetaData (option) {
+    console.log('setMetaData', option);
     if (typeof option.info === 'undefined') option.info = {
       source: state.config.source ? state.config.source : '',
       meta: state.config.meta ? state.config.meta : ''
@@ -287,7 +288,8 @@ function Chart({state, setChartOption, chartOption}) {
 
     return series;
   }
-  const displayLineChart = () => { const {templates, templateSelection, chart, csv} = state;
+  const displayLineChart = () => { 
+    const {templates, templateSelection, chart, csv} = state;
 
     let option = templates.line[templateSelection].desktop;
     console.log('displayLineChart option', option);
@@ -303,6 +305,13 @@ function Chart({state, setChartOption, chartOption}) {
   }
 
   const displayBarChart = () => {
+    const {templates, templateSelection, chart, csv} = state;
+
+    let option = templates.bar[templateSelection].desktop;
+
+    console.log('displayBarChart option', option);
+
+    displayChartInDom(option);
 
   }
 

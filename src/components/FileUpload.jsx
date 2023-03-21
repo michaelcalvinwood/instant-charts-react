@@ -16,18 +16,29 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
     const processLineCsv = (CSV) => {
         console.log('processLineCsv', CSV);
-        
+        if (CSV[1][0] === CSV[2][0]) {
+            if (CSV[0][0] !== CSV[1][0]) CSV.splice(0, 1);
+
+            let sameCount = 1;
+            for (let i = 1; i < CSV.length; ++i) {
+                if (CSV[i][0] == CSV[i-1][0]) ++sameCount;
+                else break;
+            }
+
+            for (let i = 0; i < CSV.length; i += sameCount) {
+                
+            }
+
+            console.log('sameCount', sameCount);
+        } else console.log(CSV[1][0], 'VS', CSV[2][0])
+
+
+        return CSV;
     }
 
     const processPieCsv = (CSV) => {
-        if (CSV[0][0] === 'sep=') {
-            for (let i = 1; i < CSV.length; ++i) {
-                CSV[i-1] = CSV[i];
-            }
-            CSV.splice(CSV.length-1, 1);
-            return CSV;
-        }
-
+     
+        return CSV;
 
     }
 
@@ -123,7 +134,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
             const standardizedCsv = processCsv(response.data);
             console.log('FileUpload standardizedCsv', standardizedCsv);
-            return;
+            
             setCsv(standardizedCsv);
             setFileName(fileName);
             setTemplateSelection('Default');

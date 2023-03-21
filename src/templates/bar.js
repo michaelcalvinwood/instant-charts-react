@@ -2,7 +2,7 @@ import global from "./global";
 
 const bar = {
     Default: {
-        option: {
+        desktop: {
             title: {
             text: 'Hello',
             subtext: 'My Friend',

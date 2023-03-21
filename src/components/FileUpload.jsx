@@ -5,7 +5,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { lastIndexOf, cloneDeep } from 'lodash';
 
-const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTemplateSelection, setChartOption, config, embedCode, setEmbedCode}) => {
+const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTemplateSelection, setChartOption, config, embedCode, setEmbedCode, setPercentFlag}) => {
     const [fileName, setFileName] = useState('');
     
     const metaAreaRef = useRef();
@@ -13,6 +13,33 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
     const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString().replaceAll("\n", ' ')}` : value);
     const capitalized = word => word.charAt(0).toUpperCase() + word.slice(1);
+
+    const processPieCsv = (CSV) => {
+        console.log(`processPieCsv`);
+        if (CSV[0][0] === 'sep=') {
+            console.log('FileUpload GOT SEP');
+            for (let i = 1; i < CSV.length; ++i) {
+                CSV[i-1] = CSV[i];
+            }
+            CSV.splice(CSV.length-1, 1);
+            return CSV;
+        }
+
+
+    }
+
+    const processCsv = (CSV) => {
+        console.log('processCsv', chart);
+
+        switch (chart) {
+            case 'pie':
+                CSV = processPieCsv(CSV);
+                break;
+        
+        }
+
+        return CSV;
+    }
 
     const handleMetaData = e => {
         const configClone = cloneDeep(config);
@@ -23,8 +50,6 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
         console.log('embed chartOption', chartOption);
 
         const id = uuidv4();
-
-
         const data = {};
         data.option = stringify(chartOption, 'funcxyz_');
         data.title = chartOption.title && chartOption.title.text ? chartOption.title.text : '';
@@ -70,25 +95,29 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
             console.log(response.data);
 
             const csvData = response.data;
-            const chartType = csvData[0][0] ? csvData[0][0].toLowerCase() : 'undefined';
+            // const chartType = csvData[0][0] ? csvData[0][0].toLowerCase() : 'undefined';
 
-            console.log('chartType', chartType);
+            // console.log('chartType', chartType);
 
-            switch (chartType) {
-                case 'bar':
-                case 'pie':
-                case 'line':
-                    setChart(chartType);
-                    break;
-                default:
-                    return alert(`Uknown chart type in csv file: ${chartType}`);
-            }
+            // switch (chartType) {
+            //     case 'bar':
+            //     case 'pie':
+            //     case 'line':
+            //         setChart(chartType);
+            //         break;
+            //     default:
+            //         return alert(`Uknown chart type in csv file: ${chartType}`);
+            // }
             const fileName = files[0].name;
             const loc = lastIndexOf('.');
           
             const fileNameParts = fileName.substring(0, fileName.lastIndexOf('.') !== -1 ? fileName.lastIndexOf('.') : fileName.length).split('--');
             let title = fileNameParts[0].trim();
             const subtitle = fileNameParts.length > 1 ? fileNameParts[1].trim() : '';
+
+            const standardizedCsv = processCsv(response.data);
+            console.log('FileUpload standardizedCsv', standardizedCsv);
+            return;
             setCsv(response.data);
             setFileName(fileName);
             setTemplateSelection('Default');

@@ -15,6 +15,7 @@ function App() {
   const [config, setConfig] = useState({});
   const [chartOption, setChartOption] = useState({});
   const [embedCode, setEmbedCode] = useState('');
+  const [percentFlag, setPercentFlag] = useState(false);
 
   const state = {templates, templateSelection, chart, csv, config}
   
@@ -36,6 +37,7 @@ function App() {
         config={config}
         embedCode={embedCode}
         setEmbedCode={setEmbedCode}
+        setPercentFlag={setPercentFlag}
 
       />
       <Templates 
@@ -58,6 +60,7 @@ function App() {
         state={state}
         chartOption={chartOption}
         setChartOption={setChartOption}
+        percentFlag={percentFlag}
       />
     </div>
   );

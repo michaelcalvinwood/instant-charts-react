@@ -10,12 +10,13 @@ function Chart({state, setChartOption, chartOption}) {
   const chartRef = useRef();
 
   function setTheTitles (option) {
+    console.log('setTheTitles option', option);
       /*
       * Set the title
       */
 
     if (state.config && state.config.title && state.config.title.text) {
-      if (!option.title) {
+      if (typeof option.title === 'undefined') {
         option.title = state.config.title
       } else option.title.text = state.config.title.text.replaceAll('<br>', "\n");
     } else {
@@ -158,6 +159,7 @@ function Chart({state, setChartOption, chartOption}) {
   }
 
   const adjustPiePlacement = optionOrig => {
+    console.log('adjustPiePlacement optionOrig', optionOrig);
     const option = lodash.cloneDeep(optionOrig);
 
     setTheTitles(option);
@@ -167,114 +169,11 @@ function Chart({state, setChartOption, chartOption}) {
     adjustContainerHeight(option);
     adjustLegendPlacement(option);
 
+    console.log('adjustPiePlacement optionOrig', option);
     return option;
   }
 
-  const displayPieChart = () => {
-    const {templates, templateSelection, chart, csv} = state;
-
-    let option = templates.pie[templateSelection].desktop;
-    /*
-     * Set series data using csv
-     */
-    let percentFlag = false;
-    const data = [];
-
-    for (let i = 1; i < csv[0].length; ++i) {
-      const name = csv[0][i];
-      let value = csv[1][i];
-      if (typeof value === 'string') {
-        if (value.indexOf('%') !== -1) percentFlag = true;
-        value = Number(value.replaceAll('%', ''));
-      }
-      data.push({name, value, percentFlag})
-    }
-
-    console.log('percentFlag', percentFlag);
-
-    if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}%`;
-    else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;
-    option.series[0].data = data;
-   
-    option = adjustPiePlacement(option);
-    option = setMetaData(option);
-
-    const chartDom = chartRef.current;
-    var myChart = echarts.init(chartDom);
-
-    myChart.resize({opts: {
-      height: 'auto'
-    }});
-
-    /*
-     * Update option state if different
-     */
-
-    const optionCopy = lodash.cloneDeep(option);
-    const chartOptionCopy = lodash.cloneDeep(chartOption);
-
-    console.log('Chart setOption', option, chartOption);
-
-    if (!lodash.isEqualWith(option, chartOption, (val1, val2) => {
-      if(lodash.isFunction(val1) && lodash.isFunction(val2)) {
-        return val1.toString() === val2.toString();
-      }
-    })) {
-      setChartOption(option);
-    }
-    
-    myChart.setOption(option);
-    
-  }
-
-
-  const displayLineChart = () => { const {templates, templateSelection, chart, csv} = state;
-
-    let option = templates.line[templateSelection].desktop;
-    console.log('displayLineChart option', option);
-    
-    /*
-    * Set series data using csv
-    */
-
-    let maxValue = -1;
-
-    let percentFlag = false;
-    const info = [];
-
-    for (let i = 1; i < csv.length; ++i) {
-      const name = csv[i][0];
-      console.log('csv[i]', csv[i], i);
-      const data = [];
-      for (let j = 1; j < csv[i].length; ++ j) {
-        let value = csv[i][j];
-          if (typeof value === 'string') {
-            if (value.indexOf('%') !== -1) percentFlag = true;
-            value = Number(value.replaceAll('%', ''));
-          }  
-        data.push(csv[i][j]);
-        if (value > maxValue) maxValue = value;
-      }
-      
-      info.push({name, data, type: 'line'});
-    }
-
-    const data = [];
-    for (let i = 1; i < csv[0].length; ++i) {
-      data.push(csv[0][i]);
-    }
-
-    option.xAxis.data = data;
-
-    option.series = info;
-
-    console.log('percentFlag', percentFlag);
-
-    // if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}%`;
-    // else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;
-    // option.series[0].data = data;
-  
-    option = adjustLinePlacement(option);
+  const displayChartInDom = (option) => {
     setMetaData(option);
 
     const chartDom = chartRef.current;
@@ -302,6 +201,90 @@ function Chart({state, setChartOption, chartOption}) {
     }
     
     myChart.setOption(option);
+  }
+
+  const displayPieChart = () => {
+    const {templates, templateSelection, chart, csv} = state;
+    console.log('displayPieChart templateSelection', templateSelection, templates);
+
+    let option = templates.pie[templateSelection].desktop;
+
+    console.log('displayPieChart option', option);
+    /*
+     * Set series data using csv
+     */
+    let percentFlag = false;
+    const data = [];
+
+    for (let i = 1; i < csv[0].length; ++i) {
+      const name = csv[i][0];
+      let value = csv[i][1];
+      if (typeof value === 'string') {
+        if (value.indexOf('%') !== -1) percentFlag = true;
+        value = Number(value.replaceAll('%', ''));
+      }
+      data.push({name, value, percentFlag})
+    }
+
+    console.log('percentFlag', percentFlag);
+
+    if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}%`;
+    else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;
+    option.series[0].data = data;
+   
+    option = adjustPiePlacement(option);
+    option = setMetaData(option);
+
+    displayChartInDom(option);
+    
+  }
+
+  const extractLineChartData = () => {
+    const csv = state.csv;
+    const data = [];
+    for (let i = 1; i < csv[0].length; ++i) {
+      data.push(csv[0][i]);
+    }
+
+    return data;
+  }
+
+  const extractLineChartSeries = () => {
+    const csv = state.csv;
+    let maxValue = -1;
+
+    let percentFlag = false;
+    const series = [];
+
+    for (let i = 1; i < csv.length; ++i) {
+      const name = csv[i][0];
+      const data = [];
+      for (let j = 1; j < csv[i].length; ++ j) {
+        let value = csv[i][j];
+          if (typeof value === 'string') {
+            if (value.indexOf('%') !== -1) percentFlag = true;
+            value = Number(value.replaceAll('%', ''));
+          }  
+        data.push(csv[i][j]);
+      }
+      series.push({name, data, type: 'line'});
+    }
+
+    return series;
+  }
+  const displayLineChart = () => { const {templates, templateSelection, chart, csv} = state;
+
+    let option = templates.line[templateSelection].desktop;
+    console.log('displayLineChart option', option);
+
+    option.xAxis.data = extractLineChartData();
+    option.series = extractLineChartSeries();
+
+    // if (percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}%`;
+    // else if (!percentFlag && option.tooltip) option.tooltip.formatter = (a) => `${a.name}<br>${a.value}`;
+    // option.series[0].data = data;
+    option = adjustLinePlacement(option);
+    displayChartInDom(option);
   }
 
   const displayBarChart = () => {

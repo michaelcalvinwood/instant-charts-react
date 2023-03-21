@@ -169,11 +169,12 @@ function Chart({state, setChartOption, chartOption}) {
     adjustContainerHeight(option);
     adjustLegendPlacement(option);
 
-    console.log('adjustPiePlacement optionOrig', option);
+    console.log('adjustPiePlacement option', option);
     return option;
   }
 
   const displayChartInDom = (option) => {
+    console.log('displayChartInDom option', option);
     setMetaData(option);
 
     const chartDom = chartRef.current;
@@ -216,7 +217,7 @@ function Chart({state, setChartOption, chartOption}) {
     let percentFlag = false;
     const data = [];
 
-    for (let i = 1; i < csv[0].length; ++i) {
+    for (let i = 1; i < csv.length; ++i) {
       const name = csv[i][0];
       let value = csv[i][1];
       if (typeof value === 'string') {
@@ -233,7 +234,7 @@ function Chart({state, setChartOption, chartOption}) {
     option.series[0].data = data;
    
     option = adjustPiePlacement(option);
-    option = setMetaData(option);
+    
 
     displayChartInDom(option);
     

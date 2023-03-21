@@ -15,9 +15,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
     const capitalized = word => word.charAt(0).toUpperCase() + word.slice(1);
 
     const processPieCsv = (CSV) => {
-        console.log(`processPieCsv`);
         if (CSV[0][0] === 'sep=') {
-            console.log('FileUpload GOT SEP');
             for (let i = 1; i < CSV.length; ++i) {
                 CSV[i-1] = CSV[i];
             }
@@ -29,8 +27,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
     }
 
     const processCsv = (CSV) => {
-        console.log('processCsv', chart);
-
+        
         switch (chart) {
             case 'pie':
                 CSV = processPieCsv(CSV);
@@ -117,8 +114,8 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
             const standardizedCsv = processCsv(response.data);
             console.log('FileUpload standardizedCsv', standardizedCsv);
-            return;
-            setCsv(response.data);
+            //return;
+            setCsv(standardizedCsv);
             setFileName(fileName);
             setTemplateSelection('Default');
             setConfig({

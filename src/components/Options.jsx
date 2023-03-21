@@ -78,7 +78,7 @@ function Options({config, setConfig, templates, csv, embedCode}) {
     <div className='options'>
       {/* <h2 className="options--heading">Options</h2> */}
       
-      <div className='options--chart-label'>Title:</div>
+      <div className='options__chart-label'>Title:</div>
       <input 
         type="text" 
         name="chartTitle" 
@@ -88,7 +88,7 @@ function Options({config, setConfig, templates, csv, embedCode}) {
         onChange={handleTitle}/>
       <br />
     
-      <div className='options--chart-label'>Subtitle:</div>
+      <div className='options__chart-label'>Subtitle:</div>
       <input 
         type="text" 
         name="chartSubtitle" 
@@ -98,11 +98,17 @@ function Options({config, setConfig, templates, csv, embedCode}) {
         onChange={handleSubtitle}/>
       <br />
      
-      <div className='options--chart-label'>Legend:</div> 
+      <div className='options__chart-label'>Legend:</div> 
       <input type="checkbox" name="chartLegend" id="chartLegend" checked={config.checked} onChange={handleLegend}/>
       <br />
 
-      <div className='options--chart-label'>Color:</div>
+      <div className='options__chart-label'>Percent:</div> 
+      <input type="checkbox" name="chartLegend" id="chartLegend" 
+        checked={config && config.percent && config.percent.checked ? config.percent.checked : false} onChange={handleLegend}
+      />
+      <br />
+
+      <div className='options__chart-label'>Color:</div>
       <select 
         className="options--chart-color-scheme" 
         name="chartColorScheme" 
@@ -115,6 +121,8 @@ function Options({config, setConfig, templates, csv, embedCode}) {
           })}
       </select>
       <br />
+
+
       <div className="options__source-label">Source (HTML):</div>
       <textarea 
         rows="4" 

@@ -17,6 +17,8 @@
         margin: 1rem 0 0 0;
         width: 5rem;
         display: inline-block;
+        color: var(--primary-color);
+        font-weight: 700;
     }
     &--chart-title, &--chart-subtitle {
         display: inline-block;
@@ -30,7 +32,8 @@
         text-align: center;
     }
     &__source-label {
-        
+        color: var(--primary-color);
+        font-weight: 700;
         margin: 1rem 0 0 0;
     }
     &__chart-source {

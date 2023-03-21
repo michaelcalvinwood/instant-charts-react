@@ -10,7 +10,7 @@ import template from './templates/template';
 function App() {
   const [templates, setTemplates] = useState(template);
   const [templateSelection, setTemplateSelection] = useState('Default');
-  const [chart, setChart] = useState('bar');
+  const [chart, setChart] = useState('');
   const [csv, setCsv] = useState([]);
   const [config, setConfig] = useState({});
   const [chartOption, setChartOption] = useState({});

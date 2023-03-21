@@ -119,12 +119,14 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
         <div className="file-upload">
             <h2 className="file-upload--input">Input</h2>
             <div className='file-upload--fileName'>{fileName}</div>
-            {/* <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
+            {!chart && <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
+                <option value=''>---</option>
                 <option value="bar">&nbsp;Bar</option>
                 <option value="line">&nbsp;Line</option>
                 <option value="pie">&nbsp;Pie</option>
-            </select> */}
-           <div className="dropzone-container">
+                <option value="stack">&nbsp;Stack</option>
+            </select>}
+           {chart && <div className="dropzone-container">
             <Dropzone 
                 onDrop={acceptedFiles => uploadFiles(acceptedFiles)}>
                     {({getRootProps, getInputProps}) => (
@@ -136,7 +138,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
                         </section>
                     )}
                 </Dropzone>
-           </div>
+           </div>}
            <div ref={metaAreaRef} className="file-upload__chartMetaContainer">
                 <h3 className='file-upload__metaDataLabel'>Meta Data</h3>
                 <textarea 

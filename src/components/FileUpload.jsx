@@ -5,10 +5,9 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { lastIndexOf, cloneDeep } from 'lodash';
 
-const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTemplateSelection, setChartOption, config}) => {
+const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTemplateSelection, setChartOption, config, embedCode, setEmbedCode}) => {
     const [fileName, setFileName] = useState('');
-    const embedCodeRef = useRef();
-    const embedButtonRef = useRef();
+    
     const metaAreaRef = useRef();
     const metaInputRef = useRef();
 
@@ -40,8 +39,9 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
         axios(request)
         .then(response => {
-            embedButtonRef.current.style.display='none';
-            embedCodeRef.current.innerText = `<div class='pymntsChart' id='${id}'></div>`;
+            
+            setEmbedCode(`<div class='pymntsChart' id='${id}'></div>`);
+           
         })
         .catch(error => {
             console.error(error);
@@ -52,8 +52,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
     
     const uploadFiles = files => {
         console.log('files', files);
-        embedButtonRef.current.display='block';
-        embedCodeRef.current.innerText = '';
+        
         const fd = new FormData();
         //fd.append('chart', document.getElementById('chartType').value);
         console.log(files[0].name);
@@ -119,7 +118,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
     return (
         <div className="file-upload">
             {!chart && <h2 className="file-upload--input">Select Chart Type</h2>}
-            {chart && <h2 className="file-upload--input">{capitalized(chart)} Chart</h2> }
+            {chart && !csv.length && <h2 className="file-upload--input">{capitalized(chart)} Chart</h2> }
             <div className='file-upload--fileName'>{fileName}</div>
             {!chart && <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
                 <option value=''>---</option>
@@ -141,7 +140,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
                     )}
                 </Dropzone>
            </div>}
-           <div ref={metaAreaRef} className="file-upload__chartMetaContainer">
+           {!embedCode && <div ref={metaAreaRef} className="file-upload__chartMetaContainer">
                 <h3 className='file-upload__metaDataLabel'>Meta Data</h3>
                 <textarea 
                     onChange={handleMetaData}
@@ -153,18 +152,18 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
                     id="chartMeta" 
                 />
               
-           </div>
-           <div 
-                onClick={handleEmbedButton}
-                className={csv.length ? "file-upload--embed-button" : "file-upload--embed-button__hidden"}
-                ref={embedButtonRef}
-            >
-                Embed
-            </div>
-            <p 
+           </div>}
+            {!embedCode && <div 
+                    onClick={handleEmbedButton}
+                    className={"file-upload--embed-button"}       
+                >
+                    Embed
+                </div>
+            }
+            { embedCode && <p 
                 className='file-upload--embed-code'
-                ref={embedCodeRef}
-            ></p>
+                >{embedCode}</p>
+            }
            
         </div>
         

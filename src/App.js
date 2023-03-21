@@ -14,6 +14,7 @@ function App() {
   const [csv, setCsv] = useState([]);
   const [config, setConfig] = useState({});
   const [chartOption, setChartOption] = useState({});
+  const [embedCode, setEmbedCode] = useState('');
 
   const state = {templates, templateSelection, chart, csv, config}
   
@@ -33,6 +34,8 @@ function App() {
         setTemplateSelection={setTemplateSelection}
         setChartOption={setChartOption}
         config={config}
+        embedCode={embedCode}
+        setEmbedCode={setEmbedCode}
 
       />
       <Templates 

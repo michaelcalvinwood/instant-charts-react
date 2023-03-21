@@ -16,6 +16,7 @@
         height: 1rem;
         text-align: center;
         font-weight: bold;
+        color: var(--primary-color);
     }
     &--select {
         margin: 1rem auto 0 auto;
@@ -56,6 +57,8 @@
     &--embed-code {
         margin: 1rem;
         font-weight: bold;
+        width: 80%;
+        margin: 1rem auto 0 auto;
     }
 }
 

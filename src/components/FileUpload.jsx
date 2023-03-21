@@ -119,7 +119,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
         <div className="file-upload">
             {!chart && <h2 className="file-upload--input">Select Chart Type</h2>}
             {chart && !csv.length && <h2 className="file-upload--input">{capitalized(chart)} Chart</h2> }
-            <div className='file-upload--fileName'>{fileName}</div>
+            {/* <div className='file-upload--fileName'>{fileName}</div> */}
             {!chart && <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
                 <option value=''>---</option>
                 <option value="bar">&nbsp;Bar</option>
@@ -153,16 +153,26 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
                 />
               
            </div>}
-            {!embedCode && <div 
+            {!embedCode && csv.length !== 0 && <div 
                     onClick={handleEmbedButton}
                     className={"file-upload--embed-button"}       
                 >
                     Embed
                 </div>
             }
-            { embedCode && <p 
-                className='file-upload--embed-code'
-                >{embedCode}</p>
+            { embedCode && <div>
+                <p 
+                    className='file-upload--embed-code'
+                >
+                    {embedCode}
+                </p>
+                <div
+                    className='file-upload__reload-button'
+                    onClick={() => window.location.reload()}
+                >
+                    Reload
+                </div>
+                </div>
             }
            
         </div>

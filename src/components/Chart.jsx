@@ -206,7 +206,7 @@ function Chart({state, setChartOption, chartOption}) {
 
   const displayPieChart = () => {
     const {templates, templateSelection, chart, csv} = state;
-    console.log('displayPieChart templateSelection', templateSelection, templates);
+    console.log('displayPieChart templateSelection', templateSelection, state.config.percent);
 
     let option = templates.pie[templateSelection].desktop;
 
@@ -221,8 +221,18 @@ function Chart({state, setChartOption, chartOption}) {
       const name = csv[i][0];
       let value = csv[i][1];
       if (typeof value === 'string') {
-        if (value.indexOf('%') !== -1) percentFlag = true;
-        value = Number(value.replaceAll('%', ''));
+        if (value.indexOf('%') !== -1) {
+          percentFlag = true;
+          value = Number(value.replaceAll('%', ''));
+        } else if (state.config.percent) {
+          value = Number(value) * 100;
+          percentFlag = true;
+        } else value = Number(value);
+      } else {
+        if (state.config.percent) {
+          value = value * 100;
+          percentFlag = true;
+        }
       }
       data.push({name, value, percentFlag})
     }

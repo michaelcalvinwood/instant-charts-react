@@ -8,6 +8,7 @@ function Options({config, setConfig, templates, csv, embedCode}) {
   const { colors } = templates.global.choices;
 
   if (typeof config.checked === 'undefined') config.checked = true;
+  if (typeof config.percent === 'undefined') config.percent = false;
 
   const handleTitle = e => {
     const configCopy = lodash.cloneDeep(config);
@@ -49,6 +50,12 @@ function Options({config, setConfig, templates, csv, embedCode}) {
    setConfig(configCopy);
   }
 
+  const handlePercent = e => {
+    const configCopy = lodash.cloneDeep(config);
+    configCopy.percent = !configCopy.percent;
+    setConfig(configCopy);
+   }
+ 
   const handleColorSelection = e => {
     const configCopy = lodash.cloneDeep(config);
     configCopy.color = e.target.value;
@@ -104,7 +111,7 @@ function Options({config, setConfig, templates, csv, embedCode}) {
 
       <div className='options__chart-label'>Percent:</div> 
       <input type="checkbox" name="chartLegend" id="chartLegend" 
-        checked={config && config.percent && config.percent.checked ? config.percent.checked : false} onChange={handleLegend}
+        checked={config.percent} onChange={handlePercent}
       />
       <br />
 

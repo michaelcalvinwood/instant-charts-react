@@ -13,6 +13,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
     const metaInputRef = useRef();
 
     const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString().replaceAll("\n", ' ')}` : value);
+    const capitalized = word => word.charAt(0).toUpperCase() + word.slice(1);
 
     const handleMetaData = e => {
         const configClone = cloneDeep(config);
@@ -117,7 +118,8 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
     return (
         <div className="file-upload">
-            <h2 className="file-upload--input">Input</h2>
+            {!chart && <h2 className="file-upload--input">Select Chart Type</h2>}
+            {chart && <h2 className="file-upload--input">{capitalized(chart)} Chart</h2> }
             <div className='file-upload--fileName'>{fileName}</div>
             {!chart && <select id="chartType" name = "chartType" className='file-upload--select' onChange={e => setChart(e.target.value)}>
                 <option value=''>---</option>
@@ -126,7 +128,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
                 <option value="pie">&nbsp;Pie</option>
                 <option value="stack">&nbsp;Stack</option>
             </select>}
-           {chart && <div className="dropzone-container">
+           {chart && !csv.length && <div className="dropzone-container">
             <Dropzone 
                 onDrop={acceptedFiles => uploadFiles(acceptedFiles)}>
                     {({getRootProps, getInputProps}) => (

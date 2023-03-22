@@ -366,9 +366,17 @@ function Chart({state, setChartOption, chartOption}) {
     option = adjustBarPlacement(option);
 
     if (state.config.orient === 'vertical') {
+      // Flip the axis
       let tempAxis = option.xAxis;
       option.xAxis = option.yAxis;
       option.yAxis = tempAxis;
+
+      // get max characters in yAxis data labels
+      let maxChars = 0;
+      for (let i = 0; i < option.yAxis.data.length; ++i) {
+        if (option.yAxis.data[i].length > maxChars) maxChars = option.yAxis.data[i].length;
+      }
+      option.grid.left = maxChars * 7;
     }
     
     displayChartInDom(option);

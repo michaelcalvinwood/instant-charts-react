@@ -2,7 +2,7 @@ import './Options.scss';
 import React, { useEffect } from 'react';
 import * as lodash from 'lodash';
 
-function Options({config, setConfig, templates, csv, embedCode}) {
+function Options({config, setConfig, templates, csv, embedCode, chart}) {
   console.log("Options", config, templates);
 
   const { colors } = templates.global.choices;
@@ -10,6 +10,7 @@ function Options({config, setConfig, templates, csv, embedCode}) {
   if (typeof config.checked === 'undefined') config.checked = true;
   if (typeof config.percent === 'undefined') config.percent = false;
   if (typeof config.decimal === 'undefined') config.decimal = 0;
+  if (typeof config.orient === 'undefined') config.orient = 'horizontal';
 
   const handleTitle = e => {
     const configCopy = lodash.cloneDeep(config);
@@ -69,6 +70,12 @@ function Options({config, setConfig, templates, csv, embedCode}) {
     setConfig(configCopy);
   }
 
+  const handleOrient = orient => {
+    const configCopy = lodash.cloneDeep(config);
+    configCopy.orient = orient;
+    setConfig(configCopy);
+  }
+
   useEffect(() => {
     const configCopy = lodash.cloneDeep(config);
     configCopy.color = 'Default';
@@ -116,13 +123,34 @@ function Options({config, setConfig, templates, csv, embedCode}) {
       <input type="checkbox" name="chartLegend" id="chartLegend" checked={config.checked} onChange={handleLegend}/>
       <br />
 
-      <div className='options__chart-label'>Orient:</div> 
-        <input type="radio" id="horizontal" name="barOrientation" value="horizontal" />
-        <label for="horizontal">horizontal</label>
-        <input type="radio" id="vertical" name="barOrientation" value="vertical"/>
-        <label for="vertical">vertical</label>
-      <br />
+      { chart === 'bar' && 
+        <div>
+          <div className='options__chart-label'>Orient:</div> 
+            {
+              config.orient === 'horizontal' ?  
+              <input 
+                onClick={() => handleOrient('horizontal')}
+                type="radio" id="horizontal" name="barOrientation" value="horizontal" checked/> :
+              <input 
+                onClick={() => handleOrient('horizontal')}
+                type="radio" id="horizontal" name="barOrientation" value="horizontal" />
+            }
+            <label for="horizontal">horizontal</label>
+            {
+              config.orient === 'vertical' ?
+              <input 
+                onClick={() => handleOrient('vertical')}
+                type="radio" id="vertical" name="barOrientation" value="vertical" checked/> :
+              <input 
+                onClick={() => handleOrient('vertical')}
+                type="radio" id="vertical" name="barOrientation" value="vertical"/>           
+            }
+            <label for="vertical">vertical</label>
+          <br />
 
+        </div>
+
+      }
       <div className='options__chart-label'>Percent:</div> 
       <input type="checkbox" name="chartPercent" id="chartPercent" 
         checked={config.percent} onChange={handlePercent}

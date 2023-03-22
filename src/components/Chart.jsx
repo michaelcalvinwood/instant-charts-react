@@ -364,6 +364,12 @@ function Chart({state, setChartOption, chartOption}) {
     option.series = series;
 
     option = adjustBarPlacement(option);
+
+    if (state.config.orient === 'vertical') {
+      let tempAxis = option.xAxis;
+      option.xAxis = option.yAxis;
+      option.yAxis = tempAxis;
+    }
     
     displayChartInDom(option);
 

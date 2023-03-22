@@ -116,6 +116,13 @@ function Options({config, setConfig, templates, csv, embedCode}) {
       <input type="checkbox" name="chartLegend" id="chartLegend" checked={config.checked} onChange={handleLegend}/>
       <br />
 
+      <div className='options__chart-label'>Orient:</div> 
+        <input type="radio" id="horizontal" name="barOrientation" value="horizontal" />
+        <label for="horizontal">horizontal</label>
+        <input type="radio" id="vertical" name="barOrientation" value="vertical"/>
+        <label for="vertical">vertical</label>
+      <br />
+
       <div className='options__chart-label'>Percent:</div> 
       <input type="checkbox" name="chartPercent" id="chartPercent" 
         checked={config.percent} onChange={handlePercent}

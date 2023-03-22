@@ -15,7 +15,7 @@
     }
     &__chart-label {
         margin: 1rem 0 0 0;
-        width: 5rem;
+        width: 6rem;
         display: inline-block;
         color: var(--primary-color);
         font-weight: 700;
@@ -45,4 +45,11 @@
     &__chart-decimal {
         padding: .25rem .5rem;
     }
+}
+
+#horizontal {
+    margin: 0 .5rem 0 0;
+}
+#vertical {
+    margin: 0 .5rem;
 }

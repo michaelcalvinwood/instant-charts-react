@@ -378,6 +378,10 @@ function Chart({state, setChartOption, chartOption}) {
       }
       option.grid.left = maxChars * 7;
     }
+
+    if (percentFlag) {
+      option.tooltip.formatter =  "<div style='text-align:center'>{b}<br>{a}<br>{c}%</div>";
+    }
     
     displayChartInDom(option);
 

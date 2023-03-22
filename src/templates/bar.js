@@ -46,7 +46,7 @@ const bar = {
             tooltip: {
                 trigger: "item",
                 formatter: "<div style='text-align:center'>{b}<br>{a}<br>{c}</div>",
-                backgroundColor: "rgba(0, 0, 0, .6)",
+                backgroundColor: "rgba(0, 0, 0, .8)",
                 textStyle: {
                     color: 'white'
                 }

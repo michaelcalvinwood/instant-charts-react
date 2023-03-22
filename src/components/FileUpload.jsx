@@ -83,7 +83,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
         axios(request)
         .then(response => {
-            setEmbedCode(`<div class='pymntsChart' id='${id}'></div>`);
+            setEmbedCode(`<div class='pymntsChartContainer'><div class='pymntsChart' id='${id}'></div></div>`);
         })
         .catch(error => {
             console.error(error);

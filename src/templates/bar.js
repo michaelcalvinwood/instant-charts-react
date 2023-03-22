@@ -20,9 +20,25 @@ const bar = {
             grid: {
             top: 90,
             },
+            legend: {
+                show: true,
+                orient: 'horizontal',
+                position: 'bottom',
+                left: 10,
+                bottom: 0,
+                textStyle: {
+                      fontSize: 15,
+                      color: 'black'
+                }
+            },
+            toolbox: {
+                feature: {
+                saveAsImage: {}
+                }
+            },
             tooltip: {
                 trigger: "item",
-                formatter: "{b}<br>{c}",
+                formatter: "{b}<br><div style='text-align:center'>{c}</div>",
                 backgroundColor: "rgba(0, 0, 0, .6)",
                 textStyle: {
                     color: 'white'

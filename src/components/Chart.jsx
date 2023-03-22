@@ -308,9 +308,53 @@ function Chart({state, setChartOption, chartOption}) {
     const {templates, templateSelection, chart, csv} = state;
 
     let option = templates.bar[templateSelection].desktop;
-
     console.log('displayBarChart option', option);
 
+    setTheTitles(option);
+
+    let categories = [];
+    for (let i = 1; i < csv[0].length; ++i) {
+      if (csv[0][i]) categories.push(csv[0][i]);
+    }
+
+    console.log('displayBarChart categories', categories);
+    
+    option.legend.data = categories;
+    
+    let names = [];
+    let series = [];
+    for (let i = 1; i <= categories.length; ++i) {
+      let data = [];
+      let name = csv[0][i] ? csv[0][i] : '';
+      console.log('displayBarChart name', name);
+
+      option.xAxis.data = [];
+      for (let j = 1; j < csv.length; ++j) {
+        console.log(`csv[${j}][${i}] = ${csv[j][i]}`)
+        let value = convertValue(csv[j][i]);
+        console.log('displayBarChart value', value, typeof value);
+        data.push(value);
+        option.xAxis.data.push(csv[j][0]);
+      }
+      let temp = lodash.cloneDeep(templates.bar[templateSelection].desktop.series[0]);
+     
+      temp.data = data;
+      if (name) {
+        temp.name = name;
+        names.push(name);
+      }
+      console.log('displayBarChart temp', temp)
+      series.push(temp);
+    }
+    if (names.length) {
+      
+      option.legend.data = names;
+    }
+    console.log('displayBarChart series', series);
+    console.log('displayBarChart legend', option.legend);
+
+    option.series = series;
+    
     displayChartInDom(option);
 
   }

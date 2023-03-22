@@ -42,10 +42,9 @@ function Chart({state, setChartOption, chartOption}) {
     * Calculate titleHeight
     */
 
-    let titleFontSize = option.title && option.title.textStyle && option.title.textStyle.fontSize ?
-    option.title.textStyle.fontSize : 
-    16;
-
+    let titleFontSize = 12;
+    if (option.title && option.title.textStyle && option.title.textStyle.fontSize) titleFontSize = option.title.textStyle.fontSize;
+    if (option.title && option.title.textStyle && option.title.textStyle.lineHeight) titleFontSize = option.title.textStyle.lineHeight;
     
     let numTitleLines = 0;
     if (option.title.text) {
@@ -62,11 +61,10 @@ function Chart({state, setChartOption, chartOption}) {
     * Calculate subtitleHeight
     */
 
-    let subtitleFontSize = option.title && option.title.subtextStyle && option.title.subtextStyle.fontSize ?
-    option.title.subtextStyle.fontSize : 
-    16;
-
-  
+    let subtitleFontSize = 12;
+    if (option.title && option.title.subtextStyle && option.title.subtextStyle.fontSize) subtitleFontSize = option.title.subtextStyle.fontSize;
+    if (option.title && option.title.subtextStyle && option.title.subtextStyle.lineHeight) subtitleFontSize = option.title.subtextStyle.lineHeight;
+    
     let numSubtitleLines = 0;
     if (option.title.subtext) {
       numSubtitleLines = option.title.subtext.split("\n").length;
@@ -82,7 +80,7 @@ function Chart({state, setChartOption, chartOption}) {
      * Adjust chart placement based on total title & subtitle height
      */
 
-        const totalHeight = (getTitleHeight(option) + getSubtitleHeight(option)) * 2.75;
+        const totalHeight = (getTitleHeight(option) + getSubtitleHeight(option)) + 36;
 
         let minHeight;
     
@@ -170,6 +168,21 @@ function Chart({state, setChartOption, chartOption}) {
     setColorScheme(option);
     adjustContainerHeight(option);
     adjustLegendPlacement(option);
+
+    console.log('adjustPiePlacement option', option);
+    return option;
+  }
+
+  const adjustBarPlacement = optionOrig => {
+    console.log('adjustPiePlacement optionOrig', optionOrig);
+    const option = lodash.cloneDeep(optionOrig);
+
+    setTheTitles(option);
+    const titleHeight = getTitleHeight(option);
+    const subtitleHeight = getSubtitleHeight(option);
+    setColorScheme(option);
+    adjustContainerHeight(option);
+    //adjustLegendPlacement(option);
 
     console.log('adjustPiePlacement option', option);
     return option;
@@ -316,8 +329,6 @@ function Chart({state, setChartOption, chartOption}) {
     for (let i = 1; i < csv[0].length; ++i) {
       if (csv[0][i]) categories.push(csv[0][i]);
     }
-
-    console.log('displayBarChart categories', categories);
     
     option.legend.data = categories;
     
@@ -326,13 +337,10 @@ function Chart({state, setChartOption, chartOption}) {
     for (let i = 1; i <= categories.length; ++i) {
       let data = [];
       let name = csv[0][i] ? csv[0][i] : '';
-      console.log('displayBarChart name', name);
 
       option.xAxis.data = [];
       for (let j = 1; j < csv.length; ++j) {
-        console.log(`csv[${j}][${i}] = ${csv[j][i]}`)
         let value = convertValue(csv[j][i]);
-        console.log('displayBarChart value', value, typeof value);
         data.push(value);
         option.xAxis.data.push(csv[j][0]);
       }
@@ -354,6 +362,8 @@ function Chart({state, setChartOption, chartOption}) {
     console.log('displayBarChart legend', option.legend);
 
     option.series = series;
+
+    option = adjustBarPlacement(option);
     
     displayChartInDom(option);
 

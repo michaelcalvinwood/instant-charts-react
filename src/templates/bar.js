@@ -3,22 +3,29 @@ import global from "./global";
 const bar = {
     Default: {
         desktop: {
+            info: {
+                minHeight: 450
+            },
             title: {
             text: 'Hello',
             subtext: 'My Friend',
             left: 'center',
             textStyle: {
-                    fontSize: 35,
+                    fontSize: 16,
+                    lineHeight: 22,
                     fontWeight: "bold",
                     color: "#000000",
+                    height: 0
                 },
                 subtextStyle: {
-                    fontSize: 18,
+                    fontSize: 12,
+                    lineHeight: 16,
                     color: "#000000",
                 }
             },
             grid: {
-            top: 90,
+                bottom: 60,
+                height: 380
             },
             legend: {
                 show: true,
@@ -38,7 +45,7 @@ const bar = {
             },
             tooltip: {
                 trigger: "item",
-                formatter: "{b}<br><div style='text-align:center'>{c}</div>",
+                formatter: "<div style='text-align:center'>{b}<br>{a}<br>{c}</div>",
                 backgroundColor: "rgba(0, 0, 0, .6)",
                 textStyle: {
                     color: 'white'

@@ -351,7 +351,7 @@ function Chart({state, setChartOption, chartOption}) {
       option.xAxis.data = [];
       for (let j = 1; j < csv.length; ++j) {
         let value = convertValue(csv[j][i]);
-        data.push(value);
+        data.push({value});
         option.xAxis.data.push(csv[j][0]);
       }
       let temp = lodash.cloneDeep(templates.bar[templateSelection].desktop.series[0]);

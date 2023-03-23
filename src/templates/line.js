@@ -16,12 +16,15 @@ line.Default = {
         title: {
         left: 'center',
         textStyle: {
-                fontSize: 35,
-                fontWeight: "bold",
-                color: "#000000",
+            fontSize: 16,
+            lineHeight: 22,
+            fontWeight: "bold",
+            color: "#000000",
+            height: 0
             },
             subtextStyle: {
-                fontSize: 18,
+                fontSize: 12,
+                lineHeight: 16,
                 color: "#000000",
             }
         },

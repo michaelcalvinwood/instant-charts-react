@@ -54,6 +54,7 @@ function App() {
         setConfig={setConfig}
         templates={templates}
         csv={csv}
+        setCsv={setCsv}
         embedCode={embedCode}
         chart={chart}
       />

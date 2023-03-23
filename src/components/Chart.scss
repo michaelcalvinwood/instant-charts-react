@@ -5,6 +5,7 @@
     bottom: 0;
     right: 0;
     border: 1px solid var(--primary-color);
+    overflow-y: auto;
 
     &--heading {
         color: var(--primary-color);

@@ -2,7 +2,7 @@ import './Options.scss';
 import React, { useEffect } from 'react';
 import * as lodash from 'lodash';
 
-function Options({config, setConfig, templates, csv, embedCode, chart}) {
+function Options({config, setConfig, templates, csv, setCsv, embedCode, chart}) {
   console.log("Options", config, templates);
 
   const { colors } = templates.global.choices;
@@ -11,6 +11,21 @@ function Options({config, setConfig, templates, csv, embedCode, chart}) {
   if (typeof config.percent === 'undefined') config.percent = false;
   if (typeof config.decimal === 'undefined') config.decimal = 0;
   if (typeof config.orient === 'undefined') config.orient = 'horizontal';
+  if (typeof config.dashes === 'undefined') config.dashes = '';
+  if (typeof config.dashInfo === 'undefined') config.dashInfo = [];
+  console.log('options csv.length', csv.length, typeof config.title)
+  if (csv.length) {
+    const words = csv[0][0].split(' ');
+    if (words.length > 1) {
+      const configCopy = lodash.cloneDeep(config);
+      configCopy.title = {text: csv[0][0]}
+      setConfig(configCopy);
+
+      const csvCopy = lodash.cloneDeep(csv);
+      csvCopy[0][0] = '';
+      setCsv(csvCopy);
+    }
+  } 
 
   const handleTitle = e => {
     const configCopy = lodash.cloneDeep(config);
@@ -33,6 +48,32 @@ function Options({config, setConfig, templates, csv, embedCode, chart}) {
     } else {
       configCopy.title.subtext = e.target.value;
     }
+    setConfig(configCopy);
+  }
+
+  const handleDashes = e => {
+    console.log('handleDashes', config.dashInfo);
+    // validation
+    let test = e.target.value;
+    if (test.length) {
+      const parts = test.split(',');
+      for (let i = 0; i < parts.length; ++i) {
+        let testValue = isNaN(Number(parts[i]));
+        if (testValue) return;
+      }
+    }
+    const configCopy = lodash.cloneDeep(config);
+    
+    if (test.length) {
+      configCopy.dashInfo = [];
+      const parts = test.split(',');
+      for (let i = 0; i < parts.length; ++i) {
+       if (parts[i]) configCopy.dashInfo.push(Number(parts[i]));
+      }
+    } else configCopy.dashInfo = [];
+    
+    configCopy.dashes = e.target.value;
+    
     setConfig(configCopy);
   }
 
@@ -177,7 +218,6 @@ function Options({config, setConfig, templates, csv, embedCode, chart}) {
       </select>
       <br />
 
-
       <div className="options__source-label">Source (HTML):</div>
       <textarea 
         rows="4" 
@@ -186,7 +226,25 @@ function Options({config, setConfig, templates, csv, embedCode, chart}) {
         value={config.source ? config.source : ''}
         onChange={handleSource}
       />
+      <br />
+
+      <div className='options__chart-label'>Dashes:</div>
+      <input 
+        type="text" 
+        name="chartDashes" 
+        id="chartDashes" 
+        className="options--chart-title" 
+        value={config.dashes} 
+        onChange={handleDashes}/>
+      <br />
+    
+    
+    
+    
     </div>
+    
+
+
   )
 }
 

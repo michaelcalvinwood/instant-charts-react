@@ -14,8 +14,27 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
     const stringify = (obj, token) => JSON.stringify(obj, (key, value) => typeof value === 'function' ? `${token}${value.toString().replaceAll("\n", ' ')}` : value);
     const capitalized = word => word.charAt(0).toUpperCase() + word.slice(1);
 
+    function transpose(matrix) {
+        const rows = matrix.length, cols = matrix[0].length;
+        const grid = [];
+        for (let j = 0; j < cols; j++) {
+          grid[j] = Array(rows);
+        }
+        for (let i = 0; i < rows; i++) {
+          for (let j = 0; j < cols; j++) {
+            grid[j][i] = matrix[i][j];
+          }
+        }
+        return grid;
+      }
+
     const processLineCsv = (CSV) => {
         console.log('processLineCsv', CSV);
+        if (CSV[0][0].toLowerCase() === 'columns') {
+            console.log("GOT COLUMNS");
+            return transpose(CSV);
+        }
+
         if (CSV[1][0] === CSV[2][0]) {
             if (CSV[0][0] !== CSV[1][0]) CSV.splice(0, 1);
 
@@ -134,7 +153,7 @@ const FileUpload = ({chart, setChart, setCsv, setConfig, chartOption, csv, setTe
 
             const standardizedCsv = processCsv(response.data);
             console.log('FileUpload standardizedCsv', standardizedCsv);
-            
+            //return;
             setCsv(standardizedCsv);
             setFileName(fileName);
             setTemplateSelection('Default');

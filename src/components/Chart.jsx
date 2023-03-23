@@ -137,10 +137,14 @@ function Chart({state, setChartOption, chartOption}) {
   function setMetaData (option) {
     console.log('setMetaData', option);
     if (typeof option.info === 'undefined') option.info = {
+      below: state.config.below ? state.config.below : '',
+      custom: state.config.custom ? state.config.custom : '',
       source: state.config.source ? state.config.source : '',
       meta: state.config.meta ? state.config.meta : ''
     }; 
     else {
+      option.info.below = state.config.below ? state.config.below : '';
+      option.info.custom = state.config.custom ? state.config.custom : '';
       option.info.source = state.config.source ? state.config.source : '';
       option.info.meta = state.config.meta ? state.config.meta : '';
     }
@@ -329,6 +333,24 @@ function Chart({state, setChartOption, chartOption}) {
     displayChartInDom(option);
   }
 
+  const styleBarValue = (value, num) => {
+    const itemStyle = {}
+    if (state.config.custom) {
+      const customLines = state.config.custom.split("\n");
+      for (let i = 0; i < customLines.length; ++i) {
+        const parts = customLines[i].split(' ');
+        if (isNaN(Number(parts[0]))) continue;
+        if (parts.length !== 2) continue;
+        if (Number(parts[0]) === num) itemStyle.color = parts[1];
+      }
+    }
+    
+    return {
+      value,
+      itemStyle
+    }
+  }
+
   const displayBarChart = () => {
     const {templates, templateSelection, chart, csv} = state;
 
@@ -351,7 +373,10 @@ function Chart({state, setChartOption, chartOption}) {
       option.xAxis.data = [];
       for (let j = 1; j < csv.length; ++j) {
         let value = convertValue(csv[j][i]);
-        data.push({value});
+        let barValueObject = styleBarValue(value, j);
+        data.push(barValueObject);
+
+
         option.xAxis.data.push(csv[j][0]);
       }
       let temp = lodash.cloneDeep(templates.bar[templateSelection].desktop.series[0]);
@@ -373,6 +398,9 @@ function Chart({state, setChartOption, chartOption}) {
     option.series = series;
 
     option = adjustBarPlacement(option);
+    if (!state.config.checked) {
+      option.legend.show = false
+    }
 
     if (state.config.orient === 'vertical') {
       // Flip the axis
@@ -437,7 +465,7 @@ function Chart({state, setChartOption, chartOption}) {
 
       </div>
       { state.config && state.config.source && <div className='chart__source'>
-          Source: <span dangerouslySetInnerHTML={{__html: state.config.source}}></span>
+          <span dangerouslySetInnerHTML={{__html: state.config.below + '<br />Source: ' + state.config.source}}></span>
         </div>
 
       }

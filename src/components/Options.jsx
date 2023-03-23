@@ -13,6 +13,9 @@ function Options({config, setConfig, templates, csv, setCsv, embedCode, chart}) 
   if (typeof config.orient === 'undefined') config.orient = 'horizontal';
   if (typeof config.dashes === 'undefined') config.dashes = '';
   if (typeof config.dashInfo === 'undefined') config.dashInfo = [];
+  if (typeof config.custom === 'undefined') config.custom = '';
+  if (typeof config.below === 'undefined') config.below = '';
+
   console.log('options csv.length', csv.length, typeof config.title)
   if (csv.length) {
     const words = csv[0][0].split(' ');
@@ -83,6 +86,26 @@ function Options({config, setConfig, templates, csv, setCsv, embedCode, chart}) 
       configCopy.source = e.target.value
     } else {
       configCopy.source = e.target.value;
+    }
+    setConfig(configCopy);
+  }
+
+  const handleCustom = e => {
+    const configCopy = lodash.cloneDeep(config);
+    if (typeof configCopy.custom === 'undefined') {
+      configCopy.custom = e.target.value
+    } else {
+      configCopy.custom = e.target.value;
+    }
+    setConfig(configCopy);
+  }
+
+  const handleBelow = e => {
+    const configCopy = lodash.cloneDeep(config);
+    if (typeof configCopy.below === 'undefined') {
+      configCopy.below = e.target.value
+    } else {
+      configCopy.below = e.target.value;
     }
     setConfig(configCopy);
   }
@@ -218,7 +241,54 @@ function Options({config, setConfig, templates, csv, setCsv, embedCode, chart}) 
       </select>
       <br />
 
-      <div className="options__source-label">Source (HTML):</div>
+
+
+
+      { chart === 'bar' && 
+        <div>
+            <div className="options__source-label">Below:</div>
+            <textarea 
+              rows="4" 
+              id="chartBelow" 
+              className='options__chart-source'
+              value={config.below}
+              onChange={handleBelow}
+            />
+            <br />
+        </div>
+      }
+
+      { chart === 'bar' && 
+        <div>
+            <div className="options__source-label">Custom:</div>
+            <textarea 
+              rows="4" 
+              id="chartCustom" 
+              className='options__chart-source'
+              value={config.custom}
+              onChange={handleCustom}
+            />
+            <br />
+        </div>
+
+      }
+
+      { chart === 'line' && 
+        <div>
+          <div className='options__chart-label'>Dashes:</div>
+          <input 
+            type="text" 
+            name="chartDashes" 
+            id="chartDashes" 
+            className="options--chart-title" 
+            value={config.dashes} 
+            onChange={handleDashes}/>
+          <br />
+        </div>
+
+      }
+    
+    <div className="options__source-label">Source (HTML):</div>
       <textarea 
         rows="4" 
         id="chartSource" 
@@ -227,18 +297,6 @@ function Options({config, setConfig, templates, csv, setCsv, embedCode, chart}) 
         onChange={handleSource}
       />
       <br />
-
-      <div className='options__chart-label'>Dashes:</div>
-      <input 
-        type="text" 
-        name="chartDashes" 
-        id="chartDashes" 
-        className="options--chart-title" 
-        value={config.dashes} 
-        onChange={handleDashes}/>
-      <br />
-    
-    
     
     
     </div>
